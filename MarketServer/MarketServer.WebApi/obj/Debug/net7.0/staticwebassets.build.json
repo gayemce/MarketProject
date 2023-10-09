@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "u/PK4j5c8670xiCJH1KBtIRerhTiRU39EDaEq1r9xyg=",
+  "Source": "MarketServer.WebApi",
+  "BasePath": "_content/MarketServer.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

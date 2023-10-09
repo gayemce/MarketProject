@@ -1,0 +1,38 @@
+<nav class="navbar bg-warning-subtle navbar-expand-lg">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mt-1" id="navbarTogglerDemo01">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active mb-1" aria-current="page" routerLink="/">{{'home' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active mb-1" aria-current="page" routerLink="/food">{{'food' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active mb-1" aria-current="page" routerLink="/fruit-veg">{{'fruits&veg' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active mb-1" aria-current="page" routerLink="/beverages">{{'beverages' | translate}}</a>
+                </li>
+            </ul>
+
+            <!-- Translate -->
+            <select id="languageSelector" (change)="onLanguageChange($event)" class="form-control me-2 mb-1" style="width: auto;">
+                <option value="tr">Türkçe</option>
+                <option value="en">English</option>
+            </select>
+            
+            <!-- Shopping Cart -->
+            <button class="btn btn-light position-relative mb-1" type="submit">
+                <i class="fa-solid fa-basket-shopping text-danger" [ngClass]="count > 0 ? 'fa-beat-fade' : ''"></i>
+                    <span *ngIf="count > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ">
+                      {{count}}
+                    </span>
+            </button>
+        </div>
+    </div>
+</nav>

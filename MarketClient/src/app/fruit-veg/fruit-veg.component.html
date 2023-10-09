@@ -1,0 +1,69 @@
+<div class="container mt-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mt-2">
+            <div class="card">
+                <div class="card-header bg-warning-subtle">
+                    <h3>{{'categories' | translate}}</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Search -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="{{'search' | translate}}">
+                        <span class="input-group-text text-danger" id="basic-addon1">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                    </div>
+                    <ul class="categories">
+                        <li>{{'fruits' | translate}}</li>
+                        <li>{{'vegetables' | translate}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-8 col-sm-6 col-12 mt-2">
+            <!-- Search -->
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="{{'search' | translate}}">
+                <span class="input-group-text text-danger" id="basic-addon1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+            </div>
+            <!-- Products -->
+            <div class="row">
+                <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let f of fruitveg">
+                    <div class="card text-center">
+                        <div class="card-header bg-white">
+                            <img src="https://market-product-images-cdn.getirapi.com/product/0c8abb02-517a-436c-af6d-deac57029d74.jpeg"
+                                class="card-img-top" alt="...">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to .</p>
+                            <a href="#" class="btn bg-warning-subtle">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example" style="float: right;">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
