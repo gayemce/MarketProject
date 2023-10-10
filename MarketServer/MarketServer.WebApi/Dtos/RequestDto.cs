@@ -3,4 +3,5 @@
 public sealed record RequestDto(
     int PageNumber,
     int PageSize,
-    string Search);
+    string Search,
+    int? CategoryId);

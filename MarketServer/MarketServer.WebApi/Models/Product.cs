@@ -11,4 +11,5 @@ public sealed class Product
     public decimal Stock { get; set; }
     public string Barcode { get; set; }
     public bool IsActive { get; set; }
+    public int CategoryId { get; set; } // Kategoriye ait Id
 }

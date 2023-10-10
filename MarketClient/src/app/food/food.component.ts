@@ -28,8 +28,8 @@ export class FoodComponent {
   }
 
   getCategories(){
-    this.http.get(`https://localhost:7289/api/Categories/GetAll`)
-    .subscribe(res => this.categories)
+    this.http.get(`https://localhost:7150/api/Categories/GetAll`)
+    .subscribe(res => this.categories = res)
   }
 
   setPageNumber(){

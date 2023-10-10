@@ -19,7 +19,20 @@ public class ProductsController : ControllerBase
     {
         ResponseDto<List<Product>> Response = new();
 
-        var newProducts = SeedData.Products
+        var newProducts = new List<Product>();
+
+        if(request.CategoryId != null) 
+        {
+            newProducts = SeedData.Products
+            .Where(p => p.CategoryId == request.CategoryId)
+            .ToList();
+        }
+        else
+        {
+            newProducts = SeedData.Products;
+        }
+
+        newProducts = newProducts
             .Where(x =>
                 x.Name.Replace("İ", "i").ToLower().Contains(request.Search.Replace("İ", "i").ToLower()) ||
                 x.Brand.Replace("İ", "i").ToLower().Contains(request.Search.Replace("İ", "i").ToLower())
@@ -44,16 +57,19 @@ public class ProductsController : ControllerBase
 public static class SeedData
 {
     public static List<Product> Products = new ProductService().CreateSeedProductData();
+    public static List<Category> Categories = new ProductService().CreateCategories();
 }
 
 public class ProductService
 {
     private List<Product> products = new(); //liste oluşturuldu
+    private List<Category> categories = new();
 
     public List<Product> CreateSeedProductData()
     {
         for (int i = 0; i < 100; i++)
         {
+            Random random = new();
             var product = new Product()
             {
                 Id = i + 1,
@@ -64,12 +80,32 @@ public class ProductService
                 Price = 3 * (i + 1),
                 Stock = i + 1,
                 Barcode = "968123456789",
-                IsActive = false
+                IsActive = false,
+                CategoryId = random.Next(1, 10),
+               
             };
 
             products.Add(product);
         }
 
         return products;
+    }
+
+    public List<Category> CreateCategories()
+    {
+        for(int i = 0; i < 10; i++)
+        {
+            var category = new Category()
+            {
+                Id = i + 1,
+                Name = $"Kategori {i + 1}",
+                isActive = true,
+                isDeleted = false
+            };
+
+            categories.Add(category);
+        }
+
+        return categories;
     }
 }

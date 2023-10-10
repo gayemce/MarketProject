@@ -15,10 +15,12 @@
                         </span>
                     </div>
                     <ul class="categories">
-                        <li>{{'pasta' | translate}}</li>
-                        <li>{{'rice' | translate}}</li>
-                        <li>{{'bulghur' | translate}}</li>
-                        <li>{{'legumes' | translate}}</li>
+                        <li [ngClass]="request.categoryId === null ? 'active' : ''" >
+                            {{'allCategories' | translate}}
+                        </li>
+                        <li [ngClass]="request.categoryId === c.id ? 'active' : ''" *ngFor="let c of categories">
+                            {{c.name}}
+                        </li>
                     </ul>
                 </div>
             </div>
