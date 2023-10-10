@@ -8,11 +8,51 @@
     ".NETCoreApp,Version=v7.0": {
       "MarketServer.WebApi/1.0.0": {
         "dependencies": {
+          "DuoVia.FuzzyStrings": "2.1.0",
+          "GSF.Core": "2.4.28",
           "Microsoft.AspNetCore.OpenApi": "7.0.7",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "runtime": {
           "MarketServer.WebApi.dll": {}
+        }
+      },
+      "Antlr/3.5.0.2": {
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {
+            "assemblyVersion": "3.5.0.2",
+            "fileVersion": "3.5.0.2"
+          }
+        }
+      },
+      "DuoVia.FuzzyStrings/2.1.0": {
+        "runtime": {
+          "lib/netstandard2.1/DuoVia.FuzzyStrings.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        }
+      },
+      "ExpressionEvaluator/2.0.4": {
+        "dependencies": {
+          "Antlr": "3.5.0.2"
+        },
+        "runtime": {
+          "lib/net40/ExpressionEvaluator.dll": {
+            "assemblyVersion": "2.0.4.0",
+            "fileVersion": "2.0.4.0"
+          }
+        }
+      },
+      "GSF.Core/2.4.28": {
+        "dependencies": {
+          "ExpressionEvaluator": "2.0.4"
+        },
+        "runtime": {
+          "lib/net46/GSF.Core.dll": {
+            "assemblyVersion": "2.4.28.0",
+            "fileVersion": "2.4.28.0"
+          }
         }
       },
       "Microsoft.AspNetCore.OpenApi/7.0.7": {
@@ -80,6 +120,34 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Antlr/3.5.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CSfrVuDVMx3OrQhT84zed+tOdM1clljyRLWWlQM22fJsmG836RVDGQlE6tzysXh8X8p9UjkHbLr6OqEIVhtdEA==",
+      "path": "antlr/3.5.0.2",
+      "hashPath": "antlr.3.5.0.2.nupkg.sha512"
+    },
+    "DuoVia.FuzzyStrings/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xkGo6s2x3ISS6bLgxCW6lcrn0nxMbsuPuG8N55fk1g5TFkIVqWDlj0IVWQIW7anB0SmCWlPjACPHoFpw8gLJfQ==",
+      "path": "duovia.fuzzystrings/2.1.0",
+      "hashPath": "duovia.fuzzystrings.2.1.0.nupkg.sha512"
+    },
+    "ExpressionEvaluator/2.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-w8RqBrK5YkjgXmLE0M6PKcULee3/fVaz+aIt1lOEhyyb0PYIqGvbyovmZ9Mp5WCFV6EnUjxxkoEc4MS6wlyy5Q==",
+      "path": "expressionevaluator/2.0.4",
+      "hashPath": "expressionevaluator.2.0.4.nupkg.sha512"
+    },
+    "GSF.Core/2.4.28": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-K0hUUmf+uIPQPf63ULss+6/7Arwxz0SJAb77146gcOgbPV220R2Cix3UPX/FNIedXpc9Y6LAxJfCCbv+bcGWSw==",
+      "path": "gsf.core/2.4.28",
+      "hashPath": "gsf.core.2.4.28.nupkg.sha512"
     },
     "Microsoft.AspNetCore.OpenApi/7.0.7": {
       "type": "package",

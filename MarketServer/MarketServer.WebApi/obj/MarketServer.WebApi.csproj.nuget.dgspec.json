@@ -41,6 +41,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "DuoVia.FuzzyStrings": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "GSF.Core": {
+              "target": "Package",
+              "version": "[2.4.28, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.7, )"

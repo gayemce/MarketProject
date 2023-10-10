@@ -14,6 +14,7 @@ import { FruitVegComponent } from './fruit-veg/fruit-veg.component';
 import { BeveragesComponent } from './beverages/beverages.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { FormsModule } from '@angular/forms';
+import { CategoryPipe } from './pipes/category.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,7 +29,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FoodComponent,
     FruitVegComponent,
     BeveragesComponent,
-    FooterComponent
+    FooterComponent,
+    CategoryPipe
   ],
   imports: [
     BrowserModule,

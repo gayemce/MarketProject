@@ -12,10 +12,16 @@ export class FoodComponent {
   categories: any = [];
   pageNumbers: number[] = [];
   request: RequestModel = new RequestModel();
+  searchCategory: string = "";
 
   constructor(private http: HttpClient){
     this.getAll();
     this.getCategories();
+  }
+
+  changeCategory(categoryId: number | null = null){
+    this.request.categoryId = categoryId;
+    this.getAll(1);
   }
 
   getAll(pageNumber = 1){

@@ -2,6 +2,52 @@
   "version": 3,
   "targets": {
     "net7.0": {
+      "Antlr/3.5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/Antlr3.Runtime.dll": {}
+        },
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "DuoVia.FuzzyStrings/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/DuoVia.FuzzyStrings.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/DuoVia.FuzzyStrings.dll": {}
+        }
+      },
+      "ExpressionEvaluator/2.0.4": {
+        "type": "package",
+        "dependencies": {
+          "Antlr": "3.5.0.2"
+        },
+        "compile": {
+          "lib/net40/ExpressionEvaluator.dll": {}
+        },
+        "runtime": {
+          "lib/net40/ExpressionEvaluator.dll": {}
+        }
+      },
+      "GSF.Core/2.4.28": {
+        "type": "package",
+        "dependencies": {
+          "ExpressionEvaluator": "2.0.4"
+        },
+        "compile": {
+          "lib/net46/GSF.Core.dll": {
+            "related": ".XML"
+          }
+        },
+        "runtime": {
+          "lib/net46/GSF.Core.dll": {
+            "related": ".XML"
+          }
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/7.0.7": {
         "type": "package",
         "dependencies": {
@@ -111,6 +157,59 @@
     }
   },
   "libraries": {
+    "Antlr/3.5.0.2": {
+      "sha512": "CSfrVuDVMx3OrQhT84zed+tOdM1clljyRLWWlQM22fJsmG836RVDGQlE6tzysXh8X8p9UjkHbLr6OqEIVhtdEA==",
+      "type": "package",
+      "path": "antlr/3.5.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "antlr.3.5.0.2.nupkg.sha512",
+        "antlr.nuspec",
+        "lib/Antlr3.Runtime.dll",
+        "lib/Antlr3.Runtime.pdb"
+      ]
+    },
+    "DuoVia.FuzzyStrings/2.1.0": {
+      "sha512": "xkGo6s2x3ISS6bLgxCW6lcrn0nxMbsuPuG8N55fk1g5TFkIVqWDlj0IVWQIW7anB0SmCWlPjACPHoFpw8gLJfQ==",
+      "type": "package",
+      "path": "duovia.fuzzystrings/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "duovia.fuzzystrings.2.1.0.nupkg.sha512",
+        "duovia.fuzzystrings.nuspec",
+        "lib/net462/DuoVia.FuzzyStrings.dll",
+        "lib/netstandard2.0/DuoVia.FuzzyStrings.dll",
+        "lib/netstandard2.1/DuoVia.FuzzyStrings.dll"
+      ]
+    },
+    "ExpressionEvaluator/2.0.4": {
+      "sha512": "w8RqBrK5YkjgXmLE0M6PKcULee3/fVaz+aIt1lOEhyyb0PYIqGvbyovmZ9Mp5WCFV6EnUjxxkoEc4MS6wlyy5Q==",
+      "type": "package",
+      "path": "expressionevaluator/2.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "expressionevaluator.2.0.4.nupkg.sha512",
+        "expressionevaluator.nuspec",
+        "lib/net40/ExpressionEvaluator.dll"
+      ]
+    },
+    "GSF.Core/2.4.28": {
+      "sha512": "K0hUUmf+uIPQPf63ULss+6/7Arwxz0SJAb77146gcOgbPV220R2Cix3UPX/FNIedXpc9Y6LAxJfCCbv+bcGWSw==",
+      "type": "package",
+      "path": "gsf.core/2.4.28",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gsf.core.2.4.28.nupkg.sha512",
+        "gsf.core.nuspec",
+        "images/GSF64x64.png",
+        "lib/net46/GSF.Core.XML",
+        "lib/net46/GSF.Core.dll"
+      ]
+    },
     "Microsoft.AspNetCore.OpenApi/7.0.7": {
       "sha512": "6E1I154QELFjQ4RvSWwZAlZrvB2Dy3aOkcYAQ+E4NsyqwKqFbG10HeWp/WJfq+2btUz1dKzmNMwnADf8WBk/0w==",
       "type": "package",
@@ -464,6 +563,8 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "DuoVia.FuzzyStrings >= 2.1.0",
+      "GSF.Core >= 2.4.28",
       "Microsoft.AspNetCore.OpenApi >= 7.0.7",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
@@ -508,6 +609,14 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "DuoVia.FuzzyStrings": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          },
+          "GSF.Core": {
+            "target": "Package",
+            "version": "[2.4.28, )"
+          },
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[7.0.7, )"
@@ -539,5 +648,37 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Antlr 3.5.0.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Antlr",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ExpressionEvaluator 2.0.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "ExpressionEvaluator",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'GSF.Core 2.4.28' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "GSF.Core",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

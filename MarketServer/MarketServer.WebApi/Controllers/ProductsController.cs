@@ -93,7 +93,17 @@ public class ProductService
 
     public List<Category> CreateCategories()
     {
-        for(int i = 0; i < 10; i++)
+        var category2 = new Category()
+        {
+            Id = 0,
+            Name = "Halılar",
+            isActive = true,
+            isDeleted = false
+        };
+
+        categories.Add(category2);
+
+        for (int i = 0; i < 10; i++)
         {
             var category = new Category()
             {

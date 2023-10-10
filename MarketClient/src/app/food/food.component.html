@@ -9,16 +9,21 @@
                 <div class="card-body">
                     <!-- Search -->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="{{'search' | translate}}">
+                        <input 
+                        [(ngModel)]="searchCategory"
+                        type="text" class="form-control" placeholder="{{'search' | translate}}">
                         <span class="input-group-text text-danger" id="basic-addon1">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
                     </div>
                     <ul class="categories">
-                        <li [ngClass]="request.categoryId === null ? 'active' : ''" >
+                        <li (click)="changeCategory(null)"
+                            [ngClass]="request.categoryId === null ? 'active' : ''" >
                             {{'allCategories' | translate}}
                         </li>
-                        <li [ngClass]="request.categoryId === c.id ? 'active' : ''" *ngFor="let c of categories">
+                        <li (click)="changeCategory(c.id)"
+                            [ngClass]="request.categoryId === c.id ? 'active' : ''" 
+                            *ngFor="let c of categories | category:searchCategory">
                             {{c.name}}
                         </li>
                     </ul>

@@ -1,9 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "2ibVdbMhhs9EBrnt2Gnqln0KcJpTAtMxu6vB+EB+OxFzgtIqziutNDi79m1ZT3nv5Y3+BMJZlFuU2JAE1ug3Kg==",
+  "dgSpecHash": "+HTX7m6Vjmld/F0BYtVJk5HID22yxLbCRhxf6RkgW0LxL53jD4Roys9dsCt7UDdMC3Y9KYS5hJD5OdcvlgP/zQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Win10\\Desktop\\YMYP\\Angular\\MarketProject\\MarketServer\\MarketServer.WebApi\\MarketServer.WebApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Win10\\.nuget\\packages\\antlr\\3.5.0.2\\antlr.3.5.0.2.nupkg.sha512",
+    "C:\\Users\\Win10\\.nuget\\packages\\duovia.fuzzystrings\\2.1.0\\duovia.fuzzystrings.2.1.0.nupkg.sha512",
+    "C:\\Users\\Win10\\.nuget\\packages\\expressionevaluator\\2.0.4\\expressionevaluator.2.0.4.nupkg.sha512",
+    "C:\\Users\\Win10\\.nuget\\packages\\gsf.core\\2.4.28\\gsf.core.2.4.28.nupkg.sha512",
     "C:\\Users\\Win10\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.7\\microsoft.aspnetcore.openapi.7.0.7.nupkg.sha512",
     "C:\\Users\\Win10\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Win10\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
@@ -12,5 +16,36 @@
     "C:\\Users\\Win10\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "C:\\Users\\Win10\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Antlr 3.5.0.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Antlr",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ExpressionEvaluator 2.0.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "ExpressionEvaluator",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'GSF.Core 2.4.28' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "GSF.Core",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    }
+  ]
 }

@@ -64,3 +64,7 @@ C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebA
 C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\obj\Debug\net7.0\MarketServer.WebApi.pdb
 C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\obj\Debug\net7.0\MarketServer.WebApi.genruntimeconfig.cache
 C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\obj\Debug\net7.0\ref\MarketServer.WebApi.dll
+C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\bin\Debug\net7.0\Antlr3.Runtime.dll
+C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\bin\Debug\net7.0\DuoVia.FuzzyStrings.dll
+C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\bin\Debug\net7.0\ExpressionEvaluator.dll
+C:\Users\Win10\Desktop\YMYP\Angular\MarketProject\MarketServer\MarketServer.WebApi\bin\Debug\net7.0\GSF.Core.dll
