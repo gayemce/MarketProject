@@ -12,4 +12,5 @@ public sealed class Product
     public string Barcode { get; set; }
     public bool IsActive { get; set; }
     public int CategoryId { get; set; } // Kategoriye ait Id
+    public Category Category { get; set; }
 }

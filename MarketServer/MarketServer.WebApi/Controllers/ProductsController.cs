@@ -56,66 +56,66 @@ public class ProductsController : ControllerBase
 
 public static class SeedData
 {
-    public static List<Product> Products = new ProductService().CreateSeedProductData();
-    public static List<Category> Categories = new ProductService().CreateCategories();
+    public static List<Product> Products = new();
+    public static List<Category> Categories = new();
 }
 
-public class ProductService
-{
-    private List<Product> products = new(); //liste oluşturuldu
-    private List<Category> categories = new();
+//public class ProductService
+//{
+//    private List<Product> products = new(); //liste oluşturuldu
+//    private List<Category> categories = new();
 
-    public List<Product> CreateSeedProductData()
-    {
-        for (int i = 0; i < 100; i++)
-        {
-            Random random = new();
-            var product = new Product()
-            {
-                Id = i + 1,
-                Name = "Pirinç " + (i + 1),
-                Brand = "Yayla " + (i + 1),
-                Img = "https://market-product-images-cdn.getirapi.com/product/43a3b3b2-7d12-4e16-b72f-2391ad767bd0.jpg",
-                Description = "Deneme",
-                Price = 3 * (i + 1),
-                Stock = i + 1,
-                Barcode = "968123456789",
-                IsActive = false,
-                CategoryId = random.Next(1, 10),
+//    public List<Product> CreateSeedProductData()
+//    {
+//        for (int i = 0; i < 100; i++)
+//        {
+//            Random random = new();
+//            var product = new Product()
+//            {
+//                Id = i + 1,
+//                Name = "Pirinç " + (i + 1),
+//                Brand = "Yayla " + (i + 1),
+//                Img = "https://market-product-images-cdn.getirapi.com/product/43a3b3b2-7d12-4e16-b72f-2391ad767bd0.jpg",
+//                Description = "Deneme",
+//                Price = 3 * (i + 1),
+//                Stock = i + 1,
+//                Barcode = "968123456789",
+//                IsActive = false,
+//                CategoryId = random.Next(1, 10),
                
-            };
+//            };
 
-            products.Add(product);
-        }
+//            products.Add(product);
+//        }
 
-        return products;
-    }
+//        return products;
+//    }
 
-    public List<Category> CreateCategories()
-    {
-        var category2 = new Category()
-        {
-            Id = 0,
-            Name = "Halılar",
-            isActive = true,
-            isDeleted = false
-        };
+//    public List<Category> CreateCategories()
+//    {
+//        var category2 = new Category()
+//        {
+//            Id = 0,
+//            Name = "Halılar",
+//            isActive = true,
+//            isDeleted = false
+//        };
 
-        categories.Add(category2);
+//        categories.Add(category2);
 
-        for (int i = 0; i < 10; i++)
-        {
-            var category = new Category()
-            {
-                Id = i + 1,
-                Name = $"Kategori {i + 1}",
-                isActive = true,
-                isDeleted = false
-            };
+//        for (int i = 0; i < 10; i++)
+//        {
+//            var category = new Category()
+//            {
+//                Id = i + 1,
+//                Name = $"Kategori {i + 1}",
+//                isActive = true,
+//                isDeleted = false
+//            };
 
-            categories.Add(category);
-        }
+//            categories.Add(category);
+//        }
 
-        return categories;
-    }
-}
+//        return categories;
+//    }
+//}
