@@ -9,20 +9,19 @@
                 <div class="card-body">
                     <!-- Search -->
                     <div class="input-group mb-3">
-                        <input 
-                        [(ngModel)]="searchCategory"
-                        type="text" class="form-control" placeholder="{{'search' | translate}}">
+                        <input [(ngModel)]="searchCategory" type="text" class="form-control"
+                            placeholder="{{'search' | translate}}">
                         <span class="input-group-text text-danger" id="basic-addon1">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
                     </div>
                     <ul class="categories">
-                        <li (click)="changeCategory(null)"
-                            [ngClass]="request.categoryId === null ? 'active' : ''" >
+                        <li class="category" (click)="changeCategory(null)"
+                            [ngClass]="request.categoryId === null ? 'active' : ''">
                             {{'allCategories' | translate}}
                         </li>
-                        <li (click)="changeCategory(c.id)"
-                            [ngClass]="request.categoryId === c.id ? 'active' : ''" 
+                        <li class="category" (click)="changeCategory(c.id)"
+                            [ngClass]="request.categoryId === c.id ? 'active' : ''"
                             *ngFor="let c of categories | category:searchCategory">
                             {{c.name}}
                         </li>
@@ -34,16 +33,16 @@
         <div class="col-lg-9 col-md-8 col-sm-6 col-12 mt-2">
             <!-- Search -->
             <div class="input-group mb-3">
-                <input
-                [(ngModel)]="request.search" (keydown.enter)="getAll(request.pageNumber)" (search)="getAll(1)"
-                type="search" class="form-control" placeholder="{{'search' | translate}}">
+                <input [(ngModel)]="request.search" (keydown.enter)="getAll()" (search)="getAll()" type="search"
+                    class="form-control" placeholder="{{'search' | translate}}">
                 <span class="input-group-text text-danger" id="basic-addon1">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
             </div>
+
             <!-- Products -->
             <div class="row">
-                <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let f of response.data">
+                <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let f of products">
                     <div class="card text-center">
                         <div class="card-header bg-white">
                             <img [src]="f.img" class="card-img-top" alt="...">
@@ -52,30 +51,18 @@
                             <h5 class="card-title">{{f.name}}</h5>
                             <h6 class="card-title">{{f.brand}}</h6>
                             <p class="card-text">{{f.description}}</p>
-                            <p class="card-text">{{f.price}}</p>
-                            <a href="#" class="btn bg-warning-subtle">Go somewhere</a>
+                            <p class="card-text">{{f.price.value | currency:'':'':'1.2-2'}} {{f.price.currency}}</p>
+                            <button class="btn bg-warning-subtle">Sepete Ekle</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Pagination -->
-            <nav aria-label="Page navigation example" style="float: right;">
-                <ul class="pagination">
-                    <li class="page-item" [ngClass]="response.isFirstPage === true ? 'disabled' : ''">
-                        <a class="page-link" (click)="getAll(response.pageNumber - 1)" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item" [ngClass]="response.pageNumber === p ? 'active' : '' " *ngFor="let p of pageNumbers">
-                        <a class="page-link" (click)="getAll(p)">{{p}}</a>
-                    </li>
-                    <li class="page-item" [ngClass]="response.isLastPage === true ? 'disabled' : '' ">
-                        <a class="page-link" (click)="getAll(response.pageNumber + 1)" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+
+            <!-- Infinite Scroll -->
+            <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+                (scrolled)="feedData()">
+            </div>
+
         </div>
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RequestModel } from '../models/request.model';
+import { ProductModel } from '../models/product.model';
 
 @Component({
   selector: 'app-food',
@@ -8,40 +9,42 @@ import { RequestModel } from '../models/request.model';
   styleUrls: ['./food.component.css']
 })
 export class FoodComponent {
-  response: any;
+  products: ProductModel[] = [];
   categories: any = [];
   pageNumbers: number[] = [];
   request: RequestModel = new RequestModel();
   searchCategory: string = "";
+  newData: any[] = [];
 
   constructor(private http: HttpClient){
-    this.getAll();
     this.getCategories();
+  }
+
+  feedData(){
+    this.request.pageSize += 10;
+    this.newData = [];
+    this.getAll();
   }
 
   changeCategory(categoryId: number | null = null){
     this.request.categoryId = categoryId;
-    this.getAll(1);
+    this.request.pageSize = 0;
+    this.feedData();
   }
 
-  getAll(pageNumber = 1){
-    this.request.pageNumber = pageNumber;
-    this.http.post(`https://localhost:7150/api/Products/GetAll/`, this.request)
+  getAll(){
+    this.http.post<ProductModel[]>(`https://localhost:7150/api/Products/GetAll/`, this.request)
     .subscribe(res => {
-      this.response = res;
-      this.setPageNumber();
+      this.products = res;
     })
   }
 
   getCategories(){
     this.http.get(`https://localhost:7150/api/Categories/GetAll`)
-    .subscribe(res => this.categories = res)
+    .subscribe(res => {
+      this.categories = res;
+      this.getAll();
+    });
   }
 
-  setPageNumber(){
-    this.pageNumbers = [];
-    for(let i = 0; i < this.response.totalPageCount; i++){
-      this.pageNumbers.push(i+1)
-    }
-  }
 }

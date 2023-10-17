@@ -13,26 +13,11 @@ public class ConfigurationsController : ControllerBase
     [HttpGet]
     public IActionResult SeedData()
     {
-        List<Category> categories = new();
-        for (int i = 0; i < 10; i++)
-        {
-            var category = new Category()
-            {
-                //Id kendi türetebilir.
-                Name = $"Category {i}",
-                isActive = true,
-                isDeleted = false
-            };
-            categories.Add(category);
-        }
-
-        context.Categories.AddRange(categories);
-        context.SaveChanges();
+        List<Category> categories = context.Categories.ToList();
 
         List<Product> products = new();
         for (int i = 0; i < 100; i++)
         {
-            Random random = new();
             var product = new Product()
             {
                 //Id kendi türetebilir.
@@ -43,9 +28,9 @@ public class ConfigurationsController : ControllerBase
                 Price = new(i*2, "₺"),
                 Stock = i + 1,
                 Barcode = "968123456789",
-                IsActive = false,
-                CategoryId = random.Next(1, 10),
-
+                IsActive = true,
+                isDelete = false,
+                CategoryId = categories[new Random().Next(0, categories.Count)].Id
             };
 
             products.Add(product);

@@ -15,6 +15,7 @@ import { BeveragesComponent } from './beverages/beverages.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryPipe } from './pipes/category.pipe';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -35,6 +36,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    InfiniteScrollModule,
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot({
