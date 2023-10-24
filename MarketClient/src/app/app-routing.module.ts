@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { FoodComponent } from './food/food.component';
 import { FruitVegComponent } from './fruit-veg/fruit-veg.component';
 import { BeveragesComponent } from './beverages/beverages.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: "beverages",
         component: BeveragesComponent
+      },
+      {
+        path: "shopping-cart",
+        component: ShoppingCartComponent
       }
     ]
   },

@@ -8,7 +8,7 @@ namespace MarketServer.WebApi.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class ProductsController : ControllerBase
+public sealed class ProductsController : ControllerBase
 {
     [HttpPost]
     public IActionResult GetAll(RequestDto request)

@@ -17,3 +17,8 @@
 .category:hover{
     transform: translateX(10px);
 }
+
+.card-body button:hover{
+    border: 1px solid #dc3545;
+    color: #dc3545;
+}

@@ -16,6 +16,10 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { CategoryPipe } from './pipes/category.pipe';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { IconControlDirective } from './directives/icon-control.directive';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { TrCurrencyPipe } from 'tr-currency';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,11 +35,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     FruitVegComponent,
     BeveragesComponent,
     FooterComponent,
-    CategoryPipe
+    CategoryPipe,
+    IconControlDirective,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    TrCurrencyPipe,
+    SweetAlert2Module,
     InfiniteScrollModule,
     FormsModule,
     HttpClientModule,

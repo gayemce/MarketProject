@@ -51,8 +51,10 @@
                             <h5 class="card-title">{{f.name}}</h5>
                             <h6 class="card-title">{{f.brand}}</h6>
                             <p class="card-text">{{f.description}}</p>
-                            <p class="card-text">{{f.price.value | currency:'':'':'1.2-2'}} {{f.price.currency}}</p>
-                            <button class="btn bg-warning-subtle">Sepete Ekle</button>
+                            <button iconControl class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center" (click)="addShoppingCart(f)">
+                                <span>{{f.price.value | currency:'':'':'1.2-2'}} {{f.price.currency}}</span>
+                                <i class="fa-solid fa-basket-shopping text-danger"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

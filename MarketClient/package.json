@@ -20,10 +20,12 @@
     "@angular/router": "^16.2.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "@sweetalert2/ngx-sweetalert2": "^12.2.0",
     "install": "^0.13.0",
     "ngx-infinite-scroll": "^16.0.0",
     "npm": "^10.2.0",
     "rxjs": "~7.8.0",
+    "tr-currency": "^0.0.9",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

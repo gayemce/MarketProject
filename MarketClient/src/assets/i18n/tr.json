@@ -15,5 +15,18 @@
     "ayran": "Ayran",
     "tea": "Çay",
     "coffee": "Kahve",
-    "allCategories": "Tüm Kategoriler"
+    "allCategories": "Tüm Kategoriler",
+    "addProductInShoppingCartIsSuccessful": "Ürün başarıyla sepete eklendi.",
+    "pay": "Ödeme Yap",
+    "noItemsInShoppingCart": "Sepette ürün bulunmuyor!",
+    "remove": {
+      "doYouWantToDeleted": "Silmek istiyor musunuz?",
+      "cancelBtn": "Vazgeç",
+      "confirmBtn": "Sil"
+    },
+    "payment": {
+      "title": "Ödeme Sayfası"
+    }
+    
+    
   }

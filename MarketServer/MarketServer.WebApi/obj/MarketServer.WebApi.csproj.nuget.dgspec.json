@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[2.4.28, )"
             },
+            "Iyzipay": {
+              "target": "Package",
+              "version": "[2.1.55, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.7, )"

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ShoppingCartService } from 'src/app/service/shopping-cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,18 +8,26 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  count: number = 0;
-  constructor(private translate: TranslateService) {
-    // Varsayılan dil ayarı (eğer kullanıcı dilini seçmemişse)
-    translate.setDefaultLang('tr');
+
+  language: string = "en";
+
+  constructor(
+    private translate: TranslateService,
+    public shopping: ShoppingCartService
+    ) {
+      if(localStorage.getItem("language")){
+        this.language = localStorage.getItem("language") as string;
+      }
+
+      translate.setDefaultLang( this.language);
+
   }
 
-  changeLanguage(lang: string) {
-    this.translate.use(lang);
-  }
-
-  onLanguageChange(event: any) {
-    this.translate.use(event.target.value);
+  switchLanguage(event: any) {
+    localStorage.setItem("language",event.target.value);
+    this.language = event.target.value
+    this.translate.use(this.language);
+    location.reload();
   }
 }
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MarketServer.WebApi.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public sealed class CategoriesController : ControllerBase
 {
     [HttpPost]
     public IActionResult Create(CreateCategoryDto request)

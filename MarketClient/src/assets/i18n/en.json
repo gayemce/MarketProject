@@ -15,6 +15,17 @@
     "ayran": "Ayran",
     "tea": "Tea",
     "coffee": "Coffee",
-    "allCategories": "All Categories"
+    "allCategories": "All Categories",
+    "addProductInShoppingCartIsSuccessful": "Adding product to the shopping cart was succesful.",
+    "pay": "Pay",
+    "noItemsInShoppingCart": "No items in shopping cart!",
+    "remove": {
+      "doYouWantToDeleted": "Do You Want To Deleted?",
+      "cancelBtn": "Cancel",
+      "confirmBtn": "Delete"
+    },
+    "payment": {
+      "title": "Payment Page"
   }
+}
   
