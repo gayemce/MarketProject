@@ -1,4 +1,63 @@
-<div class="container mt-5">
+<!-- Loading -->
+<div class="container mt-5" *ngIf="isLoading">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mt-2">
+            <div class="card">
+                <div class="card-header bg-warning-subtle">
+                    <h3>{{'categories' | translate}}</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Search -->
+                    <div class="input-group mb-3">
+                        <input [(ngModel)]="searchCategory" type="text" class="form-control"
+                            placeholder="{{'search' | translate}}">
+                        <span class="input-group-text text-danger" id="basic-addon1">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                    </div>
+                    <ul class="categories">
+                        <li class="category mt-2 loader-category"  *ngFor="let l of loaderDatas">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-8 col-sm-6 col-12 mt-2">
+            <!-- Search -->
+            <div class="input-group mb-3">
+                <input [(ngModel)]="request.search" (keydown.enter)="getAll()" (search)="getAll()" type="search"
+                    class="form-control" placeholder="{{'search' | translate}}">
+                <span class="input-group-text text-danger" id="basic-addon1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+            </div>
+
+            <!-- Products -->
+            <div class="row">
+                <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let l of loaderDatas">
+                    <div class="card text-center">
+                        <div class="card-header bg-white">
+                            <div class="card-img-top mt-2 loading"></div> 
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                            <h6 class="card-title"></h6>
+                            <p class="card-text"></p>
+                            <button iconControl class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center loading">
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="container mt-5"  *ngIf="!isLoading">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-lg-3 col-md-4 col-sm-6 col-12 mt-2">
@@ -51,7 +110,9 @@
                             <h5 class="card-title">{{f.name}}</h5>
                             <h6 class="card-title">{{f.brand}}</h6>
                             <p class="card-text">{{f.description}}</p>
-                            <button iconControl class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center" (click)="addShoppingCart(f)">
+                            <button iconControl
+                                class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center"
+                                (click)="addShoppingCart(f)">
                                 <span>{{f.price.value | currency:'':'':'1.2-2'}} {{f.price.currency}}</span>
                                 <i class="fa-solid fa-basket-shopping text-danger"></i>
                             </button>

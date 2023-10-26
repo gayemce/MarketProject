@@ -22,3 +22,13 @@
     border: 1px solid #dc3545;
     color: #dc3545;
 }
+
+.loader-category{
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 20px 0px;
+}
+
+.loading{
+    background-color: #f1f1f1;
+}

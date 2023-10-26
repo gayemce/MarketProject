@@ -17,13 +17,13 @@ public sealed class ShoppingCartsController : ControllerBase
     public IActionResult Payment(PaymentDto requestDto)
     {
         decimal total = 0;
-        decimal comission = 0;
-        foreach (var product in requestDto.Products)
+        decimal commission = 0; //komisyon
+        foreach (var products in requestDto.Products)
         {
-            total += product.Price.Value;
+            total += products.Price.Value;
         }
-
-        comission = total * 1.2m / 100;
+        commission = total;
+        //commission = total * 1.2m / 100;
 
         Currency currency = Currency.TRY;
         string requestCurrency = requestDto.Products[0]?.Price?.Currency;
@@ -32,13 +32,13 @@ public sealed class ShoppingCartsController : ControllerBase
             switch (requestCurrency)
             {
                 case "₺":
-                    currency = Currency.TRY; 
+                    currency = Currency.TRY;
                     break;
                 case "$":
                     currency = Currency.USD;
                     break;
                 case "£":
-                    currency = Currency.USD;
+                    currency = Currency.GBP;
                     break;
                 case "€":
                     currency = Currency.EUR;
@@ -50,9 +50,10 @@ public sealed class ShoppingCartsController : ControllerBase
         }
         else
         {
-            throw new Exception("Sepette ürün bulunamadı!");
+            throw new Exception("Sepette ürünüz yok!");
         }
 
+        //Bağlantı bilgilerini istiyor
         Options options = new Options();
         options.ApiKey = "sandbox-n0iHSihJ3QiTBpPkoZY1eSGxgRFwg5Ij";
         options.SecretKey = "sandbox-YtwDO7drJMVRnTEUMUy4o9ouPRjh2Qb4";
@@ -61,11 +62,11 @@ public sealed class ShoppingCartsController : ControllerBase
         CreatePaymentRequest request = new CreatePaymentRequest();
         request.Locale = Locale.TR.ToString();
         request.ConversationId = Guid.NewGuid().ToString();
-        request.Price = total.ToString();
-        request.PaidPrice = comission.ToString();
+        request.Price = total.ToString(); //ödeme kısmı
+        request.PaidPrice = commission.ToString(); //komisyon + ödeme tutarı
         request.Currency = currency.ToString();
         request.Installment = 1;
-        request.BasketId = Order.GetNewOrderNumber(); //GY20230000000001 sipariş numarası
+        request.BasketId = Order.GetNewOrderNumber();
         request.PaymentChannel = PaymentChannel.WEB.ToString();
         request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
 
@@ -76,38 +77,43 @@ public sealed class ShoppingCartsController : ControllerBase
         buyer.Id = Guid.NewGuid().ToString();
         request.Buyer = buyer;
 
-        Address shippingAddress = requestDto.ShippingAddress;
-        Address billingAddress = requestDto.ShippingAddress;
+
+        request.ShippingAddress = requestDto.ShippingAddress;
+        request.BillingAddress = requestDto.BillingAddress;
 
         List<BasketItem> basketItems = new List<BasketItem>();
-        foreach (var product in requestDto.Products)
+        foreach (var products in requestDto.Products)
         {
             BasketItem item = new BasketItem();
-            item.Id = product.Id.ToString();
-            item.Name = product.Name;
+            item.Category1 = "Book";
+            item.Category2 = "Book";
+            item.Id = products.Id.ToString();
+            item.Name = products.Name;
             item.ItemType = BasketItemType.PHYSICAL.ToString();
-            item.Price = product.Price.Value.ToString();
+            item.Price = products.Price.Value.ToString();
             basketItems.Add(item);
         }
         request.BasketItems = basketItems;
 
         Payment payment = Iyzipay.Model.Payment.Create(request, options);
-        if(payment.Status == "success")
+
+        if (payment.Status == "success")
         {
             List<Order> orders = new();
-            foreach (var product in requestDto.Products)
+            foreach (var products in requestDto.Products)
             {
                 Order order = new()
                 {
                     OrderNumber = request.BasketId,
-                    ProductId = product.Id,
-                    Price = new Money(product.Price.Value, product.Price.Currency),
+                    ProductId = products.Id,
+                    Price = new Money(products.Price.Value, products.Price.Currency),
                     PaymentDate = DateTime.Now,
-                    PaymentType = "Credit Card",
-                    PaymentNumber = payment.PaymentId
+                    PaymentType = "Credit Cart",
+                    PaymentNumber = payment.PaymentId,
                 };
                 orders.Add(order);
             }
+
             AppDbContext context = new();
             context.Orders.AddRange(orders);
             context.SaveChanges();
@@ -118,7 +124,5 @@ public sealed class ShoppingCartsController : ControllerBase
         {
             return BadRequest(payment.ErrorMessage);
         }
-
-        return NoContent();
     }
 }

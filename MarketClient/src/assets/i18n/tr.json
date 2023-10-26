@@ -16,6 +16,7 @@
     "tea": "Çay",
     "coffee": "Kahve",
     "allCategories": "Tüm Kategoriler",
+    "paymentIsSuccessful": "Ödeme işlemi başarıyla tamamlandı.",
     "addProductInShoppingCartIsSuccessful": "Ürün başarıyla sepete eklendi.",
     "pay": "Ödeme Yap",
     "noItemsInShoppingCart": "Sepette ürün bulunmuyor!",
@@ -25,8 +26,42 @@
       "confirmBtn": "Sil"
     },
     "payment": {
-      "title": "Ödeme Sayfası"
-    }
-    
-    
+      "title": "Ödeme Sayfası",  
+      "pay": "Ödeme Yap",
+      "completePaymentBtn": "Ödemeyi Tamamla",
+      "buyer": {
+          "title": "Alıcı Bilgileri",
+          "name": "Alıcı Adı",
+          "surname": "Alıcı Soyadı",
+          "identityNumber": "T.C. Numarası",
+          "email": "Mail Adresi",
+          "gsmNumber": "Telefon Numarası"
+      },
+      "address": "Adres Bilgileri",
+      "isSameAddress": "Teslim ve Fatura Adresi Aynı",
+      "shippingAddress": {
+          "title": "Teslim Adresi",
+          "country": "Ülke",
+          "city": "Şehir",
+          "zipCode": "Posta Kodu",
+          "contactName": "Teslim Alacak Kişi",
+          "description": "Açık Adresi"
+      },
+      "billingAddress": {
+          "title": "Fatura Adresi",
+          "country": "Ülke",
+          "city": "Şehir",
+          "zipCode": "Posta Kodu",
+          "contactName": "Teslim Alacak Kişi",
+          "description": "Açık Adresi"
+      },
+      "creditCart": {
+          "title": "Kredi Kartı Bilgileri",
+          "cardHolderName": "Kart Sahibinin Adı",
+          "cardNumber": "Kart Numarası",
+          "expireMonthAndYear": "Son Kul. Tarihi",
+          "cvc" : "CVC"
+      }
   }
+  
+}

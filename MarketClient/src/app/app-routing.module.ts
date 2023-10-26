@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutsComponent } from './layouts/layouts.component';
-import { HomeComponent } from './home/home.component';
-import { FoodComponent } from './food/food.component';
-import { FruitVegComponent } from './fruit-veg/fruit-veg.component';
-import { BeveragesComponent } from './beverages/beverages.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { LayoutsComponent } from './components/layouts/layouts.component';
+import { HomeComponent } from './components/home/home.component';
+import { FoodComponent } from './components/food/food.component';
+import { FruitVegComponent } from './components/fruit-veg/fruit-veg.component';
+import { BeveragesComponent } from './components/beverages/beverages.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 const routes: Routes = [
   {

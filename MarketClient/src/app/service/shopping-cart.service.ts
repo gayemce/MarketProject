@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { SwalService } from './swal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PaymentModel } from '../models/payment.model';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,24 +23,24 @@ export class ShoppingCartService {
     private translate: TranslateService,
     private http: HttpClient
   ) {
+    this.checkLocalStorageForShoppingCarts();
+  }
+    
+  checkLocalStorageForShoppingCarts(){
     if (localStorage.getItem("shoppingCarts")) {
       const carts: string | null = localStorage.getItem("shoppingCarts");
       if (carts !== null) {
         this.shoppingCarts = JSON.parse(carts);
-        this.count = this.shoppingCarts.length;
       }
     }
+    this.calcTotal();
   }
 
   calcTotal() {
+    this.count = this.shoppingCarts.length;
     this.total = 0;
 
     const sumMap = new Map<string, number>();
-
-    /*
-    for ile bir liste içerisinden alınan her şey referans numarası ile gelir
-    params operatörü: Objenin referansını koparır, sadece değerini alır.
-    */
 
     this.prices = [];
     for (let s of this.shoppingCarts) {
@@ -54,6 +57,7 @@ export class ShoppingCartService {
       this.prices.push({ value: sum, currency: currency });
       console.log(this.prices);
     }
+    
   }
 
   removeByIndex(index: number) {
@@ -71,11 +75,18 @@ export class ShoppingCartService {
     })
   }
 
-  payment(currency: string){
-    const newList = this.shoppingCarts.filter(p => p.price.currency === currency);
-    this.http.post(`https://localhost:7150/api/ShoppingCarts/Payment`, {products: newList}) //{products: this.shoppingCarts}
-    .subscribe(res =>{
-
-    })
+  payment(data: PaymentModel, callBack: (res: any) => void) {
+    // this.spinner.show();
+    this.http.post("https://localhost:7150/api/ShoppingCarts/Payment", data)
+      .subscribe({
+        next: (res: any) => {
+          callBack(res);
+          // this.spinner.hide();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          // this.spinner.hide();
+        }
+      })
   }
 }
