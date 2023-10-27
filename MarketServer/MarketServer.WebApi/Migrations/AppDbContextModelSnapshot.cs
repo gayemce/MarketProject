@@ -209,6 +209,32 @@ namespace MarketServer.WebApi.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("MarketServer.WebApi.Models.OrderStatues", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StatusDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Status", "OrderNumber")
+                        .IsUnique();
+
+                    b.ToTable("OrderStatues");
+                });
+
             modelBuilder.Entity("MarketServer.WebApi.Models.Product", b =>
                 {
                     b.Property<int>("Id")

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
+    <PackageReference Include="GenericEmailService" Version="1.0.3" />
     <PackageReference Include="GSF.Core" Version="2.4.28" />
     <PackageReference Include="Iyzipay" Version="2.1.55" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.7" />

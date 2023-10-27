@@ -1,3 +1,6 @@
+using MarketServer.WebApi.Options;
+using MarketServer.WebApi.Utilities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +14,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//EmailSettings uygulamanýn baþýnda deðerler ile beraber set edilir.
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+//CreateServiceTool methodu dahil edildi
+builder.Services.CreateServiceTool();
 
 var app = builder.Build();
 

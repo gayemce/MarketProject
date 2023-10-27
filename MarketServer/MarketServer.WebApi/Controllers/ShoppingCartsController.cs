@@ -1,12 +1,14 @@
-﻿using Iyzipay;
-using Iyzipay.Model;
+﻿using Iyzipay.Model;
 using Iyzipay.Request;
+using MailKit;
 using MarketServer.WebApi.Context;
 using MarketServer.WebApi.Dtos;
+using MarketServer.WebApi.Enums;
 using MarketServer.WebApi.Models;
+using MarketServer.WebApi.Services;
 using MarketServer.WebApi.ValueObject;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace MarketServer.WebApi.Controllers;
 [Route("api/[controller]/[action]")]
@@ -14,7 +16,7 @@ namespace MarketServer.WebApi.Controllers;
 public sealed class ShoppingCartsController : ControllerBase
 {
     [HttpPost]
-    public IActionResult Payment(PaymentDto requestDto)
+    public async Task<IActionResult> Payment(PaymentDto requestDto)
     {
         decimal total = 0;
         decimal commission = 0; //komisyon
@@ -54,7 +56,7 @@ public sealed class ShoppingCartsController : ControllerBase
         }
 
         //Bağlantı bilgilerini istiyor
-        Options options = new Options();
+        Iyzipay.Options options = new Iyzipay.Options();
         options.ApiKey = "sandbox-n0iHSihJ3QiTBpPkoZY1eSGxgRFwg5Ij";
         options.SecretKey = "sandbox-YtwDO7drJMVRnTEUMUy4o9ouPRjh2Qb4";
         options.BaseUrl = "https://sandbox-api.iyzipay.com";
@@ -99,24 +101,47 @@ public sealed class ShoppingCartsController : ControllerBase
 
         if (payment.Status == "success")
         {
+            AppDbContext context = new();
+
+            string orderNumber = Order.GetNewOrderNumber();
+
             List<Order> orders = new();
             foreach (var products in requestDto.Products)
             {
                 Order order = new()
                 {
-                    OrderNumber = request.BasketId,
+                    OrderNumber = orderNumber,
                     ProductId = products.Id,
                     Price = new Money(products.Price.Value, products.Price.Currency),
                     PaymentDate = DateTime.Now,
                     PaymentType = "Credit Cart",
                     PaymentNumber = payment.PaymentId,
+                    CreatedAt = DateTime.Now,
                 };
                 orders.Add(order);
             }
 
-            AppDbContext context = new();
+            OrderStatues orderStatues = new()
+            {
+                OrderNumber = orderNumber,
+                Status = OrderStatuesEnum.AwatingApproval,
+                StatusDate = DateTime.Now,
+            };
+
+            context.OrderStatues.Add(orderStatues);
             context.Orders.AddRange(orders);
             context.SaveChanges();
+
+            //MailService içerisindeki method çağrıldı
+
+            string response = await Services.MailService.SendEmailAsync(requestDto.Buyer.Email, "Siparişiniz Alındı", $@"
+            <h1>Siparişiniz Alındı</h1>
+            <p>Sipariş Numaranız: {orderNumber}<p>
+            <p>Ödeme Numaranız: {payment.PaymentId}<p>
+            <p>Ödeme Tutarınız: {payment.PaidPrice}<p>
+            <p>Ödeme Tarihiniz: {DateTime.Now}<p>
+            <p>Ödeme Tipiniz: Kredi Kartı<p>
+            <p>Ödeme Durumunuz: Onay bekliyor<p>");
 
             return NoContent();
         }

@@ -16,8 +16,8 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
                     </div>
-                    <ul class="categories">
-                        <li class="category mt-2 loader-category"  *ngFor="let l of loaderDatas">
+                    <ul class="categories placeholder-glow">
+                        <li class="category mt-2 loader-category placeholder"  *ngFor="let l of loaderDatas">
                         </li>
                     </ul>
                 </div>
@@ -38,14 +38,13 @@
             <div class="row">
                 <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let l of loaderDatas">
                     <div class="card text-center">
-                        <div class="card-header bg-white">
-                            <div class="card-img-top mt-2 loading"></div> 
+                        <div class="card-header bg-white placeholder-glow">
+                            <div class="card-img-top mt-2 loading placeholder"></div> 
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
-                            <h6 class="card-title"></h6>
-                            <p class="card-text"></p>
-                            <button iconControl class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center loading">
+                        <div class="card-body placeholder-glow">
+                            <h5 class="card-title placeholder"></h5>
+                            <p class="card-text placeholder"></p>
+                            <button iconControl disabled class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center loading placeholder">
                                 <span></span>
                             </button>
                         </div>
@@ -107,6 +106,7 @@
                             <img [src]="f.img" class="card-img-top" alt="...">
                         </div>
                         <div class="card-body">
+                            
                             <h5 class="card-title">{{f.name}}</h5>
                             <h6 class="card-title">{{f.brand}}</h6>
                             <p class="card-text">{{f.description}}</p>

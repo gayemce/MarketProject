@@ -14,9 +14,11 @@ public sealed class AppDbContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderStatues> OrderStatues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //Value Objects
         modelBuilder.Entity<Product>().OwnsOne(p => p.Price, price =>
         {
             price.Property(p => p.Value).HasColumnType("money");
@@ -29,9 +31,9 @@ public sealed class AppDbContext : DbContext
             price.Property(p => p.Currency).HasMaxLength(5);
         });
 
+        //OrderStatues tablosunda dublicate önlendi
+        modelBuilder.Entity<OrderStatues>().HasIndex(p => new { p.Status, p.OrderNumber }).IsUnique();
 
-        //Seed Data: Development sürecinde elinde veri olmasını sağlar ki üzerinde çalışılabilsin.
-        //Canlıya aldığında değişmeyecek ve database de kayıt olarak tutman gereken verilerin olmasını sağlar.
 
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Makarna", isActive = true, isDeleted = false },
