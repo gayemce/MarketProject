@@ -1,12 +1,37 @@
+using MarketServer.WebApi.Context;
 using MarketServer.WebApi.Options;
 using MarketServer.WebApi.Utilities;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Automapper service
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+//AppDbContex için service
+builder.Services.AddScoped<AppDbContext>();
+
 builder.Services.AddCors(cfr =>
 {
     cfr.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
+//Authentication: Kullanýcý kontorolü
+//Authorization: Yetki kontrölü
+
+builder.Services.AddAuthentication().AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "Issuer",
+        ValidAudience = "Audience",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("My secret key My secret key My secret key My secret key"))
+    };
 });
 
 
@@ -34,7 +59,7 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization(); Token oluþturulduðu için gerek kalmadý
 
 app.MapControllers();
 

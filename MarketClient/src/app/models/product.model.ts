@@ -10,6 +10,7 @@ export class ProductModel{
     isActive: boolean = true;
     categoryId: number = 0;
     isdelete: boolean = false;
+    categories: string[] = [];
 }
 
 export class Money{

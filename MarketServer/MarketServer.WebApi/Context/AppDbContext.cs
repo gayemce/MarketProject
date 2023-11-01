@@ -15,9 +15,13 @@ public sealed class AppDbContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderStatues> OrderStatues { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //One-to-Many" (Bire-Çok) ilişkiyi Fluent API kullanarak konfigüre etme işlemi
+        modelBuilder.Entity<Category>().HasMany(c => c.Products).WithOne(p => p.Category).HasForeignKey(p => p.CategoryId);
+
         //Value Objects
         modelBuilder.Entity<Product>().OwnsOne(p => p.Price, price =>
         {
@@ -34,6 +38,8 @@ public sealed class AppDbContext : DbContext
         //OrderStatues tablosunda dublicate önlendi
         modelBuilder.Entity<OrderStatues>().HasIndex(p => new { p.Status, p.OrderNumber }).IsUnique();
 
+        //Users tablosunda dublicate önlendi
+        modelBuilder.Entity<User>().HasIndex(p => new {p.Email, p.Username}).IsUnique();
 
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Makarna", isActive = true, isDeleted = false },

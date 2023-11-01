@@ -34,6 +34,9 @@ namespace MarketServer.WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
@@ -49,6 +52,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 1,
                             Name = "Makarna",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -56,6 +60,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 2,
                             Name = "Pirinç",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -63,6 +68,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 3,
                             Name = "Bulgur",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -70,6 +76,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 4,
                             Name = "Bakliyat",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -77,6 +84,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 5,
                             Name = "Salça",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -84,6 +92,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 6,
                             Name = "Sos",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -91,6 +100,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 7,
                             Name = "Konserve",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -98,6 +108,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 8,
                             Name = "Un",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -105,6 +116,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 9,
                             Name = "Sıvı Yağ",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -112,6 +124,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 10,
                             Name = "Zeytinyağı",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -119,6 +132,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 11,
                             Name = "Şeker",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -126,6 +140,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 12,
                             Name = "Sirke & Salata Sosu",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -133,6 +148,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 13,
                             Name = "Baharat",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -140,6 +156,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 14,
                             Name = "Çorba",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -147,6 +164,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 15,
                             Name = "Tatlı",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -154,6 +172,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 16,
                             Name = "Pasta Malzemeleri",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -161,6 +180,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 17,
                             Name = "Krema",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         },
@@ -168,6 +188,7 @@ namespace MarketServer.WebApi.Migrations
                         {
                             Id = 18,
                             Name = "Terayağ & Margarin",
+                            ProductId = 0,
                             isActive = true,
                             isDeleted = false
                         });
@@ -281,6 +302,42 @@ namespace MarketServer.WebApi.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("MarketServer.WebApi.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email", "Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("MarketServer.WebApi.Models.Order", b =>
                 {
                     b.HasOne("MarketServer.WebApi.Models.Product", "Product")
@@ -319,7 +376,7 @@ namespace MarketServer.WebApi.Migrations
             modelBuilder.Entity("MarketServer.WebApi.Models.Product", b =>
                 {
                     b.HasOne("MarketServer.WebApi.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -349,6 +406,11 @@ namespace MarketServer.WebApi.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MarketServer.WebApi.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
