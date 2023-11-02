@@ -20,6 +20,8 @@ import { IconControlDirective } from './directives/icon-control.directive';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { TrCurrencyPipe } from 'tr-currency';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -37,7 +39,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     FooterComponent,
     CategoryPipe,
     IconControlDirective,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

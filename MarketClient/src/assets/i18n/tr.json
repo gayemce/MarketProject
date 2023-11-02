@@ -1,5 +1,10 @@
 {
     "home": "Ana Sayfa",
+    "myProfile": "Profilim",
+    "productName": "Ürün Adı",
+    "brand": "Marka",
+    "description": "Açıklama",
+    "logout": "Çıkış Yap",
     "food": "Temel Gıda",
     "fruits&veg": "Meyve & Sebze",
     "beverages": "İçecekler",
@@ -21,47 +26,65 @@
     "pay": "Ödeme Yap",
     "noItemsInShoppingCart": "Sepette ürün bulunmuyor!",
     "remove": {
-      "doYouWantToDeleted": "Silmek istiyor musunuz?",
-      "cancelBtn": "Vazgeç",
-      "confirmBtn": "Sil"
+        "doYouWantToDeleted": "Silmek istiyor musunuz?",
+        "cancelBtn": "Vazgeç",
+        "confirmBtn": "Sil"
     },
     "payment": {
-      "title": "Ödeme Sayfası",  
-      "pay": "Ödeme Yap",
-      "completePaymentBtn": "Ödemeyi Tamamla",
-      "buyer": {
-          "title": "Alıcı Bilgileri",
-          "name": "Alıcı Adı",
-          "surname": "Alıcı Soyadı",
-          "identityNumber": "T.C. Numarası",
-          "email": "Mail Adresi",
-          "gsmNumber": "Telefon Numarası"
-      },
-      "address": "Adres Bilgileri",
-      "isSameAddress": "Teslim ve Fatura Adresi Aynı",
-      "shippingAddress": {
-          "title": "Teslim Adresi",
-          "country": "Ülke",
-          "city": "Şehir",
-          "zipCode": "Posta Kodu",
-          "contactName": "Teslim Alacak Kişi",
-          "description": "Açık Adresi"
-      },
-      "billingAddress": {
-          "title": "Fatura Adresi",
-          "country": "Ülke",
-          "city": "Şehir",
-          "zipCode": "Posta Kodu",
-          "contactName": "Teslim Alacak Kişi",
-          "description": "Açık Adresi"
-      },
-      "creditCart": {
-          "title": "Kredi Kartı Bilgileri",
-          "cardHolderName": "Kart Sahibinin Adı",
-          "cardNumber": "Kart Numarası",
-          "expireMonthAndYear": "Son Kul. Tarihi",
-          "cvc" : "CVC"
-      }
-  }
-  
+        "title": "Ödeme Sayfası",
+        "pay": "Ödeme Yap",
+        "completePaymentBtn": "Ödemeyi Tamamla",
+        "buyer": {
+            "title": "Alıcı Bilgileri",
+            "name": "Alıcı Adı",
+            "surname": "Alıcı Soyadı",
+            "identityNumber": "T.C. Numarası",
+            "email": "Mail Adresi",
+            "gsmNumber": "Telefon Numarası"
+        },
+        "address": "Adres Bilgileri",
+        "isSameAddress": "Teslim ve Fatura Adresi Aynı",
+        "shippingAddress": {
+            "title": "Teslim Adresi",
+            "country": "Ülke",
+            "city": "Şehir",
+            "zipCode": "Posta Kodu",
+            "contactName": "Teslim Alacak Kişi",
+            "description": "Açık Adresi"
+        },
+        "billingAddress": {
+            "title": "Fatura Adresi",
+            "country": "Ülke",
+            "city": "Şehir",
+            "zipCode": "Posta Kodu",
+            "contactName": "Teslim Alacak Kişi",
+            "description": "Açık Adresi"
+        },
+        "creditCart": {
+            "title": "Kredi Kartı Bilgileri",
+            "cardHolderName": "Kart Sahibinin Adı",
+            "cardNumber": "Kart Numarası",
+            "expireMonthAndYear": "Son Kul. Tarihi",
+            "cvc": "CVC"
+        }
+    },
+    "signIn": {
+        "title": "Giriş Formu",
+        "fillYourInformation": "Giriş yapmak için bilgilerinizi doldurun",
+        "usernameOrEmail": "Kullanıcı adı ya da email",
+        "password": "Şifre",
+        "signInBtn": "Giriş Yap",
+        "gotoRegisterBtn": "Eğer bir hesabınız yoksa ücretsiz kaydolabilirsiniz"
+    },
+    "signUp": {
+        "title": "Kayıt Formu",
+        "fillYourInformation": "Kayıt olmak istiyorsanız bilgilerinizi doldurun",
+        "name": "Ad",
+        "lastname": "Soyad",
+        "password": "Şifre",
+        "username": "Kullanıcı Adı",
+        "email": "Mail Adresi",
+        "signUpBtn": "Kayıt Ol",
+        "gotoLoginBtn": "Eğer hesabınız varsa buradan giriş yapabilirsiniz"
+    }
 }

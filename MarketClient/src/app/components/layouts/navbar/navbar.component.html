@@ -13,26 +13,50 @@
                     <a class="nav-link active mb-1" aria-current="page" routerLink="/food">{{'food' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active mb-1" aria-current="page" routerLink="/fruit-veg">{{'fruits&veg' | translate}}</a>
+                    <a class="nav-link active mb-1" aria-current="page" routerLink="/fruit-veg">{{'fruits&veg' |
+                        translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active mb-1" aria-current="page" routerLink="/beverages">{{'beverages' | translate}}</a>
+                    <a class="nav-link active mb-1" aria-current="page" routerLink="/beverages">{{'beverages' |
+                        translate}}</a>
                 </li>
             </ul>
 
             <!-- Translate -->
-            <select id="languageSelector" [(ngModel)]="language" (change)="switchLanguage($event)" class="form-control me-2 mb-1" style="width: auto;">
+            <select id="languageSelector" [(ngModel)]="language" (change)="switchLanguage($event)"
+                class="form-control me-2 mb-1" style="width: auto;">
                 <option value="tr">Türkçe</option>
                 <option value="en">English</option>
             </select>
-            
+
             <!-- Shopping Cart - ShoppingCartService -->
-            <button routerLink="/shopping-cart" class="btn btn-light position-relative mb-1" type="submit">
-                <i class="fa-solid fa-basket-shopping text-danger" [ngClass]="shopping.count > 0 ? 'fa-beat-fade' : ''"></i>
-                    <span *ngIf="shopping.count > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ">
-                      {{shopping.count}}
-                    </span>
+            <button routerLink="/shopping-cart" class="btn btn-light position-relative me-3 mb-1" type="submit">
+                <i class="fa-solid fa-basket-shopping text-danger"
+                    [ngClass]="shopping.shoppingCarts.length > 0 ? 'fa-beat-fade' : ''"></i>
+                <span *ngIf="shopping.shoppingCarts.length > 0"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger ">
+                    {{shopping.shoppingCarts.length}}
+                </span>
             </button>
+
+            <!-- Login Button -->
+            <button *ngIf="!auth.isAuthentication()" routerLink="/login"
+                class="btn btn-light position-relative me-2 mb-1">
+                <i class="fa-solid fa-user-lock"></i>
+            </button>
+
+            <!-- Profile & Logout Dropdown -->
+            <div class="dropdown" *ngIf="auth.isAuthentication()">
+                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" width="30">
+                    {{auth.userName}}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Profilim</a></li>
+                    <li><a class="dropdown-item" (click)="logout()">Çıkış Yap</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

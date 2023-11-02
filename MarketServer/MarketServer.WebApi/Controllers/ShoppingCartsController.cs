@@ -8,13 +8,94 @@ using MarketServer.WebApi.Models;
 using MarketServer.WebApi.Services;
 using MarketServer.WebApi.ValueObject;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketServer.WebApi.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
+
 public sealed class ShoppingCartsController : ControllerBase
 {
+    [HttpPost]
+    public IActionResult Add(AddShoppingCartDto request)
+    {
+        AppDbContext context = new();
+        ShoppingCart cart = new()
+        {
+            ProductId = request.ProductId,
+            Price = request.Price,
+            Quantity = 1,
+            UserId = request.UserId,
+        };
+        context.Add(cart);
+        context.SaveChanges();
+
+        return NoContent();
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult RemoveById(int id)
+    {
+        AppDbContext context = new();
+        var shoppingCart = context.ShoppingCarts.Where(p => p.Id == id).FirstOrDefault();
+        if (shoppingCart != null)
+        {
+            context.Remove(shoppingCart);
+            context.SaveChanges();
+        }
+
+        return NoContent();
+    }
+
+    [HttpGet("{userId}")]
+    public IActionResult GetAll(int userId)
+    {
+        AppDbContext context = new();
+        List<ShoppinCartResponseDto> products = context.ShoppingCarts.AsNoTracking().Include(p => p.Product).Select(s => new 
+        ShoppinCartResponseDto()
+        {
+            Id = s.Product.Id,
+            Name = s.Product.Name,
+            Img = s.Product.Img,
+            Description = s.Product.Description,
+            Price = s.Price,
+            Stock = s.Quantity,
+            Barcode = s.Product.Barcode,
+            IsActive = s.Product.IsActive,
+            CategoryId = s.Product.CategoryId,
+            isDelete = s.Product.isDelete,
+            ShoppingCartId = s.Id
+
+        }).ToList();
+
+        return Ok(products);
+    }
+
+    [HttpPost]
+    public IActionResult setShoppingCartsFromLocalStorage(List<SetShoppingCartDto> request) //Birden fazla olabileceği için List yapıldı
+    {
+        AppDbContext context = new();
+        List<ShoppingCart> shoppingCarts = new();
+
+        foreach (var item in request)
+        {
+            ShoppingCart shoppingCart = new()
+            {
+                ProductId = item.ProductId,
+                UserId = item.UserId,
+                Price = item.Price, 
+                Quantity = item.Quantity
+            };
+
+            shoppingCarts.Add(shoppingCart);
+        }
+
+        context.AddRange(shoppingCarts);
+        context.SaveChanges();
+
+        return NoContent();
+    }
+
     [HttpPost]
     public async Task<IActionResult> Payment(PaymentDto requestDto)
     {

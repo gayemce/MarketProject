@@ -34,8 +34,9 @@ export class ShoppingCartComponent {
     if (localStorage.getItem("language")) {
       this.language = localStorage.getItem("language") as string;
     }
-    this.shopping.checkLocalStorageForShoppingCarts();
+
     this.request.products = this.shopping.shoppingCarts; //ürünler listesini ShoppingCarta eşitler
+    // this.shopping.calcTotal();
   }
 
   changeTab(tabNumber: number) {

@@ -302,6 +302,32 @@ namespace MarketServer.WebApi.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("MarketServer.WebApi.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("ShoppingCarts");
+                });
+
             modelBuilder.Entity("MarketServer.WebApi.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -406,6 +432,49 @@ namespace MarketServer.WebApi.Migrations
 
                     b.Navigation("Price")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MarketServer.WebApi.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("MarketServer.WebApi.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarketServer.WebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("MarketServer.WebApi.ValueObject.Money", "Price", b1 =>
+                        {
+                            b1.Property<int>("ShoppingCartId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(5)
+                                .HasColumnType("nvarchar(5)");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("money");
+
+                            b1.HasKey("ShoppingCartId");
+
+                            b1.ToTable("ShoppingCarts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ShoppingCartId");
+                        });
+
+                    b.Navigation("Price")
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MarketServer.WebApi.Models.Category", b =>

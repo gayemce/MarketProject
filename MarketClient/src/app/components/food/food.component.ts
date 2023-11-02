@@ -6,6 +6,8 @@ import { ShoppingCartService } from '../../service/shopping-cart.service';
 import Swal from 'sweetalert2'
 import { SwalService } from '../../service/swal.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AddShoppingCartModel } from 'src/app/models/add-shopping-cart.model';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-food',
@@ -27,19 +29,42 @@ export class FoodComponent {
     private http: HttpClient,
     private shopping: ShoppingCartService,
     private swal: SwalService,
+    private auth: AuthService,
     private translate: TranslateService
   ) {
+    /* Kullanıcı girişi yapıldığın kaldığı kategoriden ve yüklenen verilerden devam eder */
+    if (localStorage.getItem("request")) {
+      const requestString: any = localStorage.getItem("request");
+      const requestObj = JSON.parse(requestString)
+      this.request = requestObj;
+    }
     this.getCategories();
   }
 
   addShoppingCart(product: ProductModel) {
-    this.shopping.shoppingCarts.push(product);
-    localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
-    this.shopping.count++;
-    this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
-      this.swal.callToast(res);
-    })
+    if (localStorage.getItem("response")) {
 
+      const data: AddShoppingCartModel = new AddShoppingCartModel();
+      data.productId = product.id;
+      data.price = product.price;
+      data.quantity = 1;
+      data.userId = this.auth.userId;
+
+      this.http.post("https://localhost:7150/api/ShoppingCarts/Add", data).subscribe(res => {
+        this.shopping.checkLocalStorageForShoppingCarts();
+        this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
+          this.swal.callToast(res);
+        });
+      });
+
+    }
+    else {
+      this.shopping.shoppingCarts.push(product);
+      localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
+      this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
+        this.swal.callToast(res);
+      });
+    }
   }
 
   feedData() {
@@ -60,6 +85,7 @@ export class FoodComponent {
       .subscribe(res => {
         this.products = res;
         this.isLoading = false;
+        localStorage.setItem("request", JSON.stringify(this.request));
       })
   }
 

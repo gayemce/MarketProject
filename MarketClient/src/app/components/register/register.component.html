@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-lg-4 col-md-5 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1>{{'signUp.title' | translate}}</h1>
+                <p>{{'signUp.fillYourInformation' | translate}}</p>
+            </div>
+            <div class="card-body">
+                <form #registerForm="ngForm" autocomplete="off" (ngSubmit)="signUp(registerForm)">
+                    <div class="form-group">
+                        <label for="name">
+                            {{'signUp.name' | translate}}
+                        </label>
+                        <input type="text" ngModel name="name" class="form-control">
+                    </div>
+                    <div class="form-group mt-1">
+                        <label for="lastname">
+                            {{'signUp.lastname' | translate}}
+                        </label>
+                        <input type="text" ngModel name="lastname" class="form-control">
+                    </div>
+                    <div class="form-group mt-1">
+                        <label for="username">
+                            {{'signUp.username' | translate}}
+                        </label>
+                        <input type="text" ngModel name="username" class="form-control">
+                    </div>
+                    <div class="form-group mt-1">
+                        <label for="email">
+                            {{'signUp.email' | translate}}
+                        </label>
+                        <input type="text" ngModel name="email" class="form-control">
+                    </div>
+                    <div class="form-group mt-1">
+                        <label for="password">
+                            {{'signUp.password' | translate}}
+                        </label>
+                        <input type="text" ngModel name="password" class="form-control">
+                    </div>
+                    <div class="form-group mt-1">
+                        <button class="btn btn-warning w-100">
+                            {{'signUp.signUpBtn' | translate}}
+                        </button>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <a routerLink="/login">
+                        {{'signUp.gotoLoginBtn' | translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

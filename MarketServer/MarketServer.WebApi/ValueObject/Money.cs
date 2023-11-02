@@ -1,6 +1,6 @@
 ﻿namespace MarketServer.WebApi.ValueObject;
 
-public sealed class Money
+public sealed record Money
 {
     public Money(decimal value, string currency)
     {

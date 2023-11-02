@@ -11,6 +11,8 @@ export class ProductModel{
     categoryId: number = 0;
     isdelete: boolean = false;
     categories: string[] = [];
+    shoppingCartId: number = 0;
+    
 }
 
 export class Money{

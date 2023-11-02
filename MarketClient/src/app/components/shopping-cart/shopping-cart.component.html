@@ -1,8 +1,8 @@
 <div class="container mt-5">
-    <h1 class="alert alert-danger text-center" *ngIf="shopping.count === 0">
+    <h1 class="alert alert-danger text-center" *ngIf="shopping.shoppingCarts.length === 0">
         {{'noItemsInShoppingCart' | translate}}
     </h1>
-    <div class="row" *ngIf="shopping.count > 0">
+    <div class="row" *ngIf="shopping.shoppingCarts.length > 0">
         <!-- Products in Basket -->
         <div class="col-lg-9 col-12">
             <div class="card mt-1 position-relative" *ngFor="let s of shopping.shoppingCarts, let i = index">
@@ -12,13 +12,13 @@
                     </div>
                     <div class="col-lg-7 col-10">
                         <div class="form-group">
-                            Ürün Adı: {{s.name}}
+                            <b>{{'productName' | translate}}:</b> {{s.name}}
                         </div>
                         <div class="form-group">
-                            Marka: {{s.brand}}
+                            <b>{{'brand' | translate}}:</b> {{s.brand}}
                         </div>
                         <div class="form-group">
-                            Açıklama: {{s.description}}
+                            <b>{{'description' | translate}}:</b> {{s.description}}
                         </div>
                     </div>
                     <div class="col-lg-3 col-12 text-center d-flex justify-content-center" style="flex-direction: column;">

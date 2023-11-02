@@ -3,7 +3,7 @@ using MarketServer.WebApi.ValueObject;
 
 namespace MarketServer.WebApi.Dtos;
 
-public class ProductDto
+public class ShoppinCartResponseDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -17,5 +17,5 @@ public class ProductDto
     public int CategoryId { get; set; } // Kategoriye ait Id
     public Category? Category { get; set; }
     public bool isDelete { get; set; }
-    public List<string> Categories { get; set; }
+    public int ShoppingCartId { get; set; }
 }

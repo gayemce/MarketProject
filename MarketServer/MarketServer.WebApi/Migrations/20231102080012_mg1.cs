@@ -21,7 +21,8 @@ namespace MarketServer.WebApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    isDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,29 +116,58 @@ namespace MarketServer.WebApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ShoppingCarts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    userId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Price_Value = table.Column<decimal>(type: "money", nullable: false),
+                    Price_Currency = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_Users_userId",
+                        column: x => x.userId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Name", "isActive", "isDeleted" },
+                columns: new[] { "Id", "Name", "ProductId", "isActive", "isDeleted" },
                 values: new object[,]
                 {
-                    { 1, "Makarna", true, false },
-                    { 2, "Pirinç", true, false },
-                    { 3, "Bulgur", true, false },
-                    { 4, "Bakliyat", true, false },
-                    { 5, "Salça", true, false },
-                    { 6, "Sos", true, false },
-                    { 7, "Konserve", true, false },
-                    { 8, "Un", true, false },
-                    { 9, "Sıvı Yağ", true, false },
-                    { 10, "Zeytinyağı", true, false },
-                    { 11, "Şeker", true, false },
-                    { 12, "Sirke & Salata Sosu", true, false },
-                    { 13, "Baharat", true, false },
-                    { 14, "Çorba", true, false },
-                    { 15, "Tatlı", true, false },
-                    { 16, "Pasta Malzemeleri", true, false },
-                    { 17, "Krema", true, false },
-                    { 18, "Terayağ & Margarin", true, false }
+                    { 1, "Makarna", 0, true, false },
+                    { 2, "Pirinç", 0, true, false },
+                    { 3, "Bulgur", 0, true, false },
+                    { 4, "Bakliyat", 0, true, false },
+                    { 5, "Salça", 0, true, false },
+                    { 6, "Sos", 0, true, false },
+                    { 7, "Konserve", 0, true, false },
+                    { 8, "Un", 0, true, false },
+                    { 9, "Sıvı Yağ", 0, true, false },
+                    { 10, "Zeytinyağı", 0, true, false },
+                    { 11, "Şeker", 0, true, false },
+                    { 12, "Sirke & Salata Sosu", 0, true, false },
+                    { 13, "Baharat", 0, true, false },
+                    { 14, "Çorba", 0, true, false },
+                    { 15, "Tatlı", 0, true, false },
+                    { 16, "Pasta Malzemeleri", 0, true, false },
+                    { 17, "Krema", 0, true, false },
+                    { 18, "Terayağ & Margarin", 0, true, false }
                 });
 
             migrationBuilder.CreateIndex(
@@ -157,6 +187,16 @@ namespace MarketServer.WebApi.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_ProductId",
+                table: "ShoppingCarts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_userId",
+                table: "ShoppingCarts",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email_Username",
                 table: "Users",
                 columns: new[] { "Email", "Username" },
@@ -173,10 +213,13 @@ namespace MarketServer.WebApi.Migrations
                 name: "OrderStatues");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Categories");

@@ -1,31 +1,89 @@
 {
-    "home": "Home",
-    "food": "Food",
-    "fruits&veg": "Fruits & Veg",
-    "beverages": "Beverages",
-    "search": "Enter value to search...",
-    "categories": "Categories",
-    "pasta": "Pasta",
-    "rice": "Rice",
-    "bulghur": "Bulghur",
-    "legumes": "Legumes",
-    "fruits": "Fruits",
-    "vegetables": "Vegetables",
-    "water": "Water",
-    "ayran": "Ayran",
-    "tea": "Tea",
-    "coffee": "Coffee",
-    "allCategories": "All Categories",
-    "addProductInShoppingCartIsSuccessful": "Adding product to the shopping cart was succesful.",
+  "home": "Home",
+  "myProfile": "MyProfile",
+  "logout": "Logout",
+  "productName": "Product Name",
+  "brand": "Brand",
+  "description": "Description",
+  "food": "Food",
+  "fruits&veg": "Fruits & Veg",
+  "beverages": "Beverages",
+  "search": "Enter value to search...",
+  "categories": "Categories",
+  "pasta": "Pasta",
+  "rice": "Rice",
+  "bulghur": "Bulghur",
+  "legumes": "Legumes",
+  "fruits": "Fruits",
+  "vegetables": "Vegetables",
+  "water": "Water",
+  "ayran": "Ayran",
+  "tea": "Tea",
+  "coffee": "Coffee",
+  "allCategories": "All Categories",
+  "addProductInShoppingCartIsSuccessful": "Adding product to the shopping cart was succesful.",
+  "pay": "Pay",
+  "noItemsInShoppingCart": "No items in shopping cart!",
+  "remove": {
+    "doYouWantToDeleted": "Do You Want To Deleted?",
+    "cancelBtn": "Cancel",
+    "confirmBtn": "Delete"
+  },
+  "payment": {
+    "title": "Payment Page",
     "pay": "Pay",
-    "noItemsInShoppingCart": "No items in shopping cart!",
-    "remove": {
-      "doYouWantToDeleted": "Do You Want To Deleted?",
-      "cancelBtn": "Cancel",
-      "confirmBtn": "Delete"
+    "completePaymentBtn": "Complete Payment",
+    "buyer": {
+      "title": "Buyer Information",
+      "name": "Buyer Name",
+      "surname": "Buyer Lastname",
+      "identityNumber": "Identity Number",
+      "email": "Email",
+      "gsmNumber": "Phone Number"
     },
-    "payment": {
-      "title": "Payment Page"
+    "address": "Address Information",
+    "isSameAddress": "Shipping and billing address is the same",
+    "shippingAddress": {
+      "title": "Shipping Address",
+      "country": "Country",
+      "city": "City",
+      "zipCode": "Zip Code",
+      "contactName": "Contact Name",
+      "description": "Full Address"
+    },
+    "billingAddress": {
+      "title": "Billing Address",
+      "country": "Country",
+      "city": "City",
+      "zipCode": "Zip Code",
+      "contactName": "Contact Name",
+      "description": "Full Address"
+    },
+    "creditCart": {
+      "title": "Credit Card Information",
+      "cardHolderName": "Card Holder Name",
+      "cardNumber": "Car Number",
+      "expireMonthAndYear": "Expire Month And Year",
+      "cvc": "CVC"
+    }
+  },
+  "signIn": {
+    "title": "Sign In",
+    "fillYourInformation": "Please fill your information to sign in",
+    "usernameOrEmail": "Username or Email",
+    "password": "Password",
+    "signInBtn": "Sign In",
+    "gotoRegisterBtn": "If you don't have an account you can register for free"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "fillYourInformation": "If you want to sign up. Please fill your information",
+    "name": "Name",
+    "lastname": "Lastname",
+    "password": "Password",
+    "username": "User Name",
+    "email": "Email",
+    "signUpBtn": "Sign In",
+    "gotoLoginBtn": "If you have a account you can login here"
   }
 }
-  
