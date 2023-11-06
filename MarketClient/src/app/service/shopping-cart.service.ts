@@ -6,6 +6,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PaymentModel } from '../models/payment.model';
 import { AuthService } from './auth.service';
 import { SetShoppingCartsModel } from '../models/set-shopping-carts.model';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class ShoppingCartService {
     private swal: SwalService,
     private translate: TranslateService,
     private http: HttpClient,
-    private auth: AuthService
+    private auth: AuthService,
+    private error: ErrorService
   ) {
     this.checkLocalStorageForShoppingCarts();
   }
@@ -41,9 +43,14 @@ export class ShoppingCartService {
     }
 
     if (localStorage.getItem("response")) {
-      this.http.get<SetShoppingCartsModel[]>("https://localhost:7150/api/ShoppingCarts/GetAll/" + this.auth.userId,).subscribe(res => {
-        this.shoppingCarts = res
-        this.calcTotal();
+      this.http.get<SetShoppingCartsModel[]>("https://localhost:7150/api/ShoppingCarts/GetAll/" + this.auth.userId,).subscribe({
+        next: (res: any) => {
+          this.shoppingCarts = res
+          this.calcTotal();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.errorHandler(err);
+        }
       })
     }
 
@@ -97,16 +104,13 @@ export class ShoppingCartService {
   }
 
   payment(data: PaymentModel, callBack: (res: any) => void) {
-    // this.spinner.show();
-    this.http.post("https://localhost:7150/api/ShoppingCarts/Payment/", data)
+    this.http.post("https://localhost:7150/api/ShoppingCarts/Payment", data)
       .subscribe({
         next: (res: any) => {
           callBack(res);
-          // this.spinner.hide();
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err);
-          // this.spinner.hide();
+          this.error.errorHandler(err);
         }
       })
   }

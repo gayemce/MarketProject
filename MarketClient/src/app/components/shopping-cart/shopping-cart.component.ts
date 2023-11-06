@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PaymentModel } from '../../models/payment.model';
 import { Cities, Countries } from 'src/app/constants/address';
 import { SwalService } from 'src/app/service/swal.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -29,6 +30,7 @@ export class ShoppingCartComponent {
   constructor(
     public shopping: ShoppingCartService,
     private translate: TranslateService,
+    private auth: AuthService,
     private swal: SwalService
   ) {
     if (localStorage.getItem("language")) {
@@ -56,6 +58,8 @@ export class ShoppingCartComponent {
     this.request.buyer.registrationAddress = this.request.shippingAddress.description;
     this.request.buyer.city = this.request.shippingAddress.city;
     this.request.buyer.country = this.request.shippingAddress.country;
+    this.request.userId = this.auth.userId;
+
     this.shopping.payment(this.request, (res)=> {
       const btn = document.getElementById("paymentModalCloseBtn");
       btn?.click();

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RequestModel } from '../../models/request.model';
 import { ProductModel } from '../../models/product.model';
@@ -8,6 +8,7 @@ import { SwalService } from '../../service/swal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AddShoppingCartModel } from 'src/app/models/add-shopping-cart.model';
 import { AuthService } from 'src/app/service/auth.service';
+import { ErrorService } from 'src/app/service/error.service';
 
 @Component({
   selector: 'app-food',
@@ -30,7 +31,8 @@ export class FoodComponent {
     private shopping: ShoppingCartService,
     private swal: SwalService,
     private auth: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private error: ErrorService
   ) {
     /* Kullanıcı girişi yapıldığın kaldığı kategoriden ve yüklenen verilerden devam eder */
     if (localStorage.getItem("request")) {
@@ -50,13 +52,17 @@ export class FoodComponent {
       data.quantity = 1;
       data.userId = this.auth.userId;
 
-      this.http.post("https://localhost:7150/api/ShoppingCarts/Add", data).subscribe(res => {
-        this.shopping.checkLocalStorageForShoppingCarts();
-        this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
-          this.swal.callToast(res);
-        });
+      this.http.post("https://localhost:7150/api/ShoppingCarts/Add", data).subscribe({
+        next: (res: any) => {
+          this.shopping.checkLocalStorageForShoppingCarts();
+          this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
+            this.swal.callToast(res);
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.errorHandler(err);
+        }
       });
-
     }
     else {
       this.shopping.shoppingCarts.push(product);
@@ -82,21 +88,30 @@ export class FoodComponent {
   getAll() {
     // this.isLoading = true;
     this.http.post<ProductModel[]>(`https://localhost:7150/api/Products/GetAll/`, this.request)
-      .subscribe(res => {
-        this.products = res;
-        this.isLoading = false;
-        localStorage.setItem("request", JSON.stringify(this.request));
-      })
+      .subscribe({
+        next: (res: any) => {
+          this.products = res;
+          this.isLoading = false;
+          localStorage.setItem("request", JSON.stringify(this.request));
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.errorHandler(err);
+        }
+      });
   }
 
   getCategories() {
     // this.isLoading = true;
     this.http.get(`https://localhost:7150/api/Categories/GetAll`)
-      .subscribe(res => {
-        this.categories = res;
-        this.getAll();
-        this.isLoading = false;
+      .subscribe({
+        next: (res: any) => {
+          this.categories = res;
+          this.getAll();
+          this.isLoading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error.errorHandler(err);
+        }
       });
   }
-
 }

@@ -9,6 +9,8 @@ using MarketServer.WebApi.Services;
 using MarketServer.WebApi.ValueObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace MarketServer.WebApi.Controllers;
 [Route("api/[controller]/[action]")]
@@ -56,6 +58,7 @@ public sealed class ShoppingCartsController : ControllerBase
         {
             Id = s.Product.Id,
             Name = s.Product.Name,
+            Brand = s.Product.Brand,
             Img = s.Product.Img,
             Description = s.Product.Description,
             Price = s.Price,
@@ -182,40 +185,52 @@ public sealed class ShoppingCartsController : ControllerBase
 
         if (payment.Status == "success")
         {
-            AppDbContext context = new();
-
-            string orderNumber = Order.GetNewOrderNumber();
-
-            List<Order> orders = new();
-            foreach (var products in requestDto.Products)
+            try
             {
-                Order order = new()
+                AppDbContext context = new();
+
+                string orderNumber = Order.GetNewOrderNumber();
+
+                List<Order> orders = new();
+                foreach (var products in requestDto.Products)
+                {
+                    Order order = new()
+                    {
+                        OrderNumber = orderNumber,
+                        ProductId = products.Id,
+                        Price = new Money(products.Price.Value, products.Price.Currency),
+                        PaymentDate = DateTime.Now,
+                        PaymentType = "Credit Cart",
+                        PaymentNumber = payment.PaymentId,
+                        CreatedAt = DateTime.Now,
+                    };
+                    orders.Add(order);
+                }
+
+                OrderStatues orderStatues = new()
                 {
                     OrderNumber = orderNumber,
-                    ProductId = products.Id,
-                    Price = new Money(products.Price.Value, products.Price.Currency),
-                    PaymentDate = DateTime.Now,
-                    PaymentType = "Credit Cart",
-                    PaymentNumber = payment.PaymentId,
-                    CreatedAt = DateTime.Now,
+                    Status = OrderStatuesEnum.AwatingApproval,
+                    StatusDate = DateTime.Now,
                 };
-                orders.Add(order);
-            }
 
-            OrderStatues orderStatues = new()
-            {
-                OrderNumber = orderNumber,
-                Status = OrderStatuesEnum.AwatingApproval,
-                StatusDate = DateTime.Now,
-            };
 
-            context.OrderStatues.Add(orderStatues);
-            context.Orders.AddRange(orders);
-            context.SaveChanges();
+                context.OrderStatues.Add(orderStatues);
+                context.Orders.AddRange(orders);
 
-            //MailService içerisindeki method çağrıldı
+                //Kullanıcı girişi varsa, işlem bitince sepeti siler
+                Models.User user = context.Users.Find(requestDto.UserId);
+                if (user is not null)
+                {
+                    var shoppingCarts = context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
+                    context.RemoveRange(shoppingCarts);
+                }
 
-            string response = await Services.MailService.SendEmailAsync(requestDto.Buyer.Email, "Siparişiniz Alındı", $@"
+                context.SaveChanges();
+
+                //MailService içerisindeki method çağrıldı
+
+                string response = await Services.MailService.SendEmailAsync(requestDto.Buyer.Email, "Siparişiniz Alındı", $@"
             <h1>Siparişiniz Alındı</h1>
             <p>Sipariş Numaranız: {orderNumber}<p>
             <p>Ödeme Numaranız: {payment.PaymentId}<p>
@@ -223,6 +238,24 @@ public sealed class ShoppingCartsController : ControllerBase
             <p>Ödeme Tarihiniz: {DateTime.Now}<p>
             <p>Ödeme Tipiniz: Kredi Kartı<p>
             <p>Ödeme Durumunuz: Onay bekliyor<p>");
+            }
+
+            //Sipariş alınırken hata oluşursa iade işlemi gerçekleşecek
+            catch(Exception ex)
+            {
+                //Ödeme kırılım ayarı yapılmalı
+                CreateRefundRequest refundRequest = new CreateRefundRequest();
+                refundRequest.ConversationId = request.ConversationId;
+                refundRequest.Locale = Locale.TR.ToString();
+                refundRequest.PaymentTransactionId = "1";
+                refundRequest.Price = request.Price;
+                refundRequest.Ip = "85.34.78.112";
+                refundRequest.Currency = currency.ToString();
+
+                Refund refund = Refund.Create(refundRequest, options);
+
+                return BadRequest(new { Message = "İşlem sırasında hata ile karşılaşıldı ve paranızın geri iadesi gerçekleştrildi. Lütfen yapmak istediğiniz işlemi tekrar deneyin." });
+            }
 
             return NoContent();
         }
