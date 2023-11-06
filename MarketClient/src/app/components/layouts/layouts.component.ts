@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DriverService } from 'src/app/service/driver.service';
 
 @Component({
   selector: 'app-layouts',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class LayoutsComponent {
 
+  constructor(
+    public driver: DriverService
+  ){}
 }

@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse mt-1" id="navbarTogglerDemo01">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="driverNavbar">
                 <li class="nav-item">
                     <a class="nav-link active mb-1" aria-current="page" routerLink="/">{{'home' | translate}}</a>
                 </li>
@@ -30,7 +30,7 @@
             </select>
 
             <!-- Shopping Cart - ShoppingCartService -->
-            <button routerLink="/shopping-cart" class="btn btn-light position-relative me-3 mb-1" type="submit">
+            <button routerLink="/shopping-cart" class="btn btn-light position-relative me-3 mb-1" type="submit" id="driverShoppingCart">
                 <i class="fa-solid fa-basket-shopping text-danger"
                     [ngClass]="shopping.shoppingCarts.length > 0 ? 'fa-beat-fade' : ''"></i>
                 <span *ngIf="shopping.shoppingCarts.length > 0"
@@ -40,13 +40,13 @@
             </button>
 
             <!-- Login Button -->
-            <button *ngIf="!auth.isAuthentication()" routerLink="/login"
+            <button id="driverLoginButton" *ngIf="!auth.isAuthentication()" routerLink="/login"
                 class="btn btn-light position-relative me-2 mb-1">
                 <i class="fa-solid fa-user-lock"></i>
             </button>
 
             <!-- Profile & Logout Dropdown -->
-            <div class="dropdown" *ngIf="auth.isAuthentication()">
+            <div id="driverDropdownMenu" class="dropdown" *ngIf="auth.isAuthentication()">
                 <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <img src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" width="30">

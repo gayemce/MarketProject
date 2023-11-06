@@ -24,6 +24,8 @@
     "ApiNotFound": "Api adresi bulunamadı",
     "errorStatusNotFound": "Bilinmeyen bir hatayla karşılaşıldı. İlgileniyoruz.",
     "allCategories": "Tüm Kategoriler",
+    "wanttoDiscoverHowtoUseThisWebsite": "Bu web sitesini nasıl kullanacağınızı keşfetmek ister misiniz?",
+    "discover": "Keşfet",
     "paymentIsSuccessful": "Ödeme işlemi başarıyla tamamlandı.",
     "addProductInShoppingCartIsSuccessful": "Ürün başarıyla sepete eklendi.",
     "pay": "Ödeme Yap",

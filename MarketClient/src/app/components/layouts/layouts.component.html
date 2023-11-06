@@ -1,3 +1,14 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
+<div class="popup bg-warning-subtle" *ngIf="driver.isPopupShow">
+    <p>{{'wanttoDiscoverHowtoUseThisWebsite' | translate}}</p>
+    <button (click)="driver.showDriver()" class="btn btn-warning">
+        <i class="fa-solid fa-info"></i>
+        {{'discover' | translate}}
+    </button>
+    <!-- progressBar -->
+    <div class="progress mt-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" [ngStyle]="{width: driver.processBar + '%'}"></div>
+    </div>
+</div>
 <app-footer></app-footer>
