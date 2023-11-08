@@ -7,6 +7,7 @@ import { PaymentModel } from '../models/payment.model';
 import { AuthService } from './auth.service';
 import { SetShoppingCartsModel } from '../models/set-shopping-carts.model';
 import { ErrorService } from './error.service';
+import { DriverService } from './driver.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,29 +25,63 @@ export class ShoppingCartService {
     private translate: TranslateService,
     private http: HttpClient,
     private auth: AuthService,
-    private error: ErrorService
+    private error: ErrorService,
   ) {
-    this.checkLocalStorageForShoppingCarts();
+    this.getAllShoppingCarts();
   }
 
+  changeProductQuantityInShoppingCart(productId: number, quantity: number) {
+    if (localStorage.getItem("response")) {
+      this.http.get(`https://localhost:7150/api/ShoppingCarts/ChangeProductQuantityInShoppingCart/${productId}/${quantity}`)
+        .subscribe({
+          next: (res: any) => {
+            this.getAllShoppingCarts();
+          },
+          error: (err: HttpErrorResponse) => {
+            this.error.errorHandler(err);
+          }
+        })
+    }
+    else {
+      if (quantity <= 0) {
+        const index = this.shoppingCarts.findIndex(p => p.id == productId);
+        this.removeByIndex(index);
+      }
+      else {
+        this.http.get(`https://localhost:7150/api/ShoppingCarts/CheckProductQuantityIsAvailable/${productId}/${quantity}`).subscribe({
+          next: (res: any) => {
+            this.shoppingCarts.filter(p => p.id === productId)[0].quantity = quantity;
+          },
+          error: (err: HttpErrorResponse) => {
+            this.error.errorHandler(err);
+          }
+        })
+      }
+    }
+  }
+
+
   //Sepetteki ürünleri elde eder
-  checkLocalStorageForShoppingCarts() {
+  getAllShoppingCarts() {
     const shoppingCartString = localStorage.getItem("shoppingCarts")
     if (shoppingCartString) {
       const carts: string | null = localStorage.getItem("shoppingCarts");
       if (carts !== null) {
         this.shoppingCarts = JSON.parse(carts);
+        this.calcTotal();
       }
     }
     else {
       this.shoppingCarts = [];
     }
 
+    //kullanıcı girişi varsa
     if (localStorage.getItem("response")) {
       this.http.get<SetShoppingCartsModel[]>("https://localhost:7150/api/ShoppingCarts/GetAll/" + this.auth.userId,).subscribe({
         next: (res: any) => {
           this.shoppingCarts = res
           this.calcTotal();
+
         },
         error: (err: HttpErrorResponse) => {
           this.error.errorHandler(err);
@@ -65,7 +100,8 @@ export class ShoppingCartService {
 
     this.prices = [];
     for (let s of this.shoppingCarts) {
-      this.prices.push({ ...s.price });
+      const newPrice = { value: (s.price.value * s.stock), currency: s.price.currency };
+      this.prices.push({ ...newPrice });
     }
 
     for (const item of this.prices) { //currency değerlerini birbirinden ayırıyor
@@ -90,7 +126,7 @@ export class ShoppingCartService {
       this.swal.callSwal(res.doYouWantToDeleted, res.cancelBtn, res.confirmBtn, () => {
         if (localStorage.getItem("response")) {
           this.http.get("https://localhost:7150/api/ShoppingCarts/RemoveById/" + this.shoppingCarts[index]?.shoppingCartId).subscribe(res => {
-            this.checkLocalStorageForShoppingCarts();
+            this.getAllShoppingCarts();
           });
         }
         else {

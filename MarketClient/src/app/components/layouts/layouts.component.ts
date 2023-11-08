@@ -10,5 +10,7 @@ export class LayoutsComponent {
 
   constructor(
     public driver: DriverService
-  ){}
+  ){
+    
+  }
 }

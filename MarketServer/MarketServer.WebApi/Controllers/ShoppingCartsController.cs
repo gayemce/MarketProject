@@ -18,19 +18,107 @@ namespace MarketServer.WebApi.Controllers;
 
 public sealed class ShoppingCartsController : ControllerBase
 {
+    private readonly AppDbContext _context;
+
+    public ShoppingCartsController(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    [HttpGet("{productId}/{quantity}")]
+    public IActionResult CheckProductQuantityIsAvailable(int productId, int quantity)
+    {
+        Product product = _context.Products.Find(productId);
+        if (product.Stock < quantity)
+        {
+            throw new Exception("Stokta bu kadar adet kitap yok!");
+        }
+
+        return NoContent();
+    }
+
+    [HttpGet("{productId}/{quantity}")]
+    public IActionResult ChangeProductQuantityInShoppingCart(int productId, int quantity)
+    {
+        ShoppingCart cart = _context.ShoppingCarts.Where(p => p.ProductId == productId).FirstOrDefault();
+
+        if(cart is null)
+        {
+            throw new Exception("Ürün sepette bulunamadı!");
+        }
+
+        Product product = _context.Products.Find(productId);
+
+        if (quantity <= 0)
+        {
+            //product.Stock += 1;
+
+            _context.Remove(cart);
+            //_context.Update(product);
+        }
+
+        else
+        {
+            cart.Quantity = quantity;
+            
+            if(product.Stock < cart.Quantity)
+            {
+                throw new Exception("Stokta bu kadar adet kitap yok!");
+            }
+
+            _context.Update(cart);
+
+        }
+
+        _context.SaveChanges();
+
+        return NoContent();
+
+    }
+
     [HttpPost]
     public IActionResult Add(AddShoppingCartDto request)
     {
-        AppDbContext context = new();
-        ShoppingCart cart = new()
+        Product product = _context.Products.Find(request.ProductId);
+        if(product is null)
         {
-            ProductId = request.ProductId,
-            Price = request.Price,
-            Quantity = 1,
-            UserId = request.UserId,
-        };
-        context.Add(cart);
-        context.SaveChanges();
+            throw new Exception("Ürün bulunamadı!");
+        }
+
+        if(product.Stock < request.Quantity)
+        {
+            throw new Exception("Ürün stokta kalmadı!");
+        }
+
+        
+        ShoppingCart cart = 
+            _context.ShoppingCarts
+            .Where(p => p.ProductId == request.ProductId)
+            .FirstOrDefault();
+
+        //eklenen ürün daha önceden sepette mevcutsa bir artır
+        if (cart is not null)
+        {
+            cart.Quantity += 1;
+
+            _context.Update(product);
+        }
+        //değilse direkt 1 adet ekle
+        else
+        {
+            cart = new()
+            {
+                ProductId = request.ProductId,
+                Price = request.Price,
+                Quantity = 1,
+                UserId = request.UserId,
+            };
+
+            _context.Add(cart);
+
+        }
+
+        _context.SaveChanges();
 
         return NoContent();
     }
@@ -38,12 +126,16 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult RemoveById(int id)
     {
-        AppDbContext context = new();
-        var shoppingCart = context.ShoppingCarts.Where(p => p.Id == id).FirstOrDefault();
+        var shoppingCart = _context.ShoppingCarts.Where(p => p.Id == id).FirstOrDefault();
         if (shoppingCart != null)
         {
-            context.Remove(shoppingCart);
-            context.SaveChanges();
+            //Product product = _context.Products.Find(shoppingCart.ProductId);
+            //product.Stock += shoppingCart.Quantity;
+
+            //_context.Update(product);
+
+            _context.Remove(shoppingCart);
+            _context.SaveChanges();
         }
 
         return NoContent();
@@ -52,8 +144,7 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpGet("{userId}")]
     public IActionResult GetAll(int userId)
     {
-        AppDbContext context = new();
-        List<ShoppinCartResponseDto> products = context.ShoppingCarts.AsNoTracking().Include(p => p.Product).Select(s => new 
+        List<ShoppinCartResponseDto> products = _context.ShoppingCarts.AsNoTracking().Include(p => p.Product).Select(s => new 
         ShoppinCartResponseDto()
         {
             Id = s.Product.Id,
@@ -77,7 +168,6 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpPost]
     public IActionResult setShoppingCartsFromLocalStorage(List<SetShoppingCartDto> request) //Birden fazla olabileceği için List yapıldı
     {
-        AppDbContext context = new();
         List<ShoppingCart> shoppingCarts = new();
 
         foreach (var item in request)
@@ -93,8 +183,8 @@ public sealed class ShoppingCartsController : ControllerBase
             shoppingCarts.Add(shoppingCart);
         }
 
-        context.AddRange(shoppingCarts);
-        context.SaveChanges();
+        _context.AddRange(shoppingCarts);
+        _context.SaveChanges();
 
         return NoContent();
     }
@@ -102,6 +192,16 @@ public sealed class ShoppingCartsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Payment(PaymentDto requestDto)
     {
+        //ödeme esnasında stoğu tekrar kontrol eder
+        foreach(var item in requestDto.Products)
+        {
+            Product checkProduct = _context.Products.Find(item.Id);
+            if(checkProduct.Stock < item.Stock)
+            {
+                throw new Exception($"{item.Name} Ürün stokta kalmadı!");
+            }
+        }
+
         decimal total = 0;
         decimal commission = 0; //komisyon
         foreach (var products in requestDto.Products)
@@ -171,8 +271,8 @@ public sealed class ShoppingCartsController : ControllerBase
         foreach (var products in requestDto.Products)
         {
             BasketItem item = new BasketItem();
-            item.Category1 = "Book";
-            item.Category2 = "Book";
+            item.Category1 = "Product";
+            item.Category2 = "Product";
             item.Id = products.Id.ToString();
             item.Name = products.Name;
             item.ItemType = BasketItemType.PHYSICAL.ToString();
@@ -187,17 +287,23 @@ public sealed class ShoppingCartsController : ControllerBase
         {
             try
             {
-                AppDbContext context = new();
 
                 string orderNumber = Order.GetNewOrderNumber();
 
                 List<Order> orders = new();
                 foreach (var products in requestDto.Products)
                 {
+
+                    //Ödeme yapıldıktan sonra stoğu günceller
+                    Product changeBookQuantity = _context.Products.Find(products.Id);
+                    changeBookQuantity.Stock -= products.Stock;
+                    _context.Update(changeBookQuantity);
+
                     Order order = new()
                     {
                         OrderNumber = orderNumber,
                         ProductId = products.Id,
+                        Quantity = (int)products.Stock,
                         Price = new Money(products.Price.Value, products.Price.Currency),
                         PaymentDate = DateTime.Now,
                         PaymentType = "Credit Cart",
@@ -215,18 +321,18 @@ public sealed class ShoppingCartsController : ControllerBase
                 };
 
 
-                context.OrderStatues.Add(orderStatues);
-                context.Orders.AddRange(orders);
+                _context.OrderStatues.Add(orderStatues);
+                _context.Orders.AddRange(orders);
 
                 //Kullanıcı girişi varsa, işlem bitince sepeti siler
-                Models.User user = context.Users.Find(requestDto.UserId);
+                Models.User user = _context.Users.Find(requestDto.UserId);
                 if (user is not null)
                 {
-                    var shoppingCarts = context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
-                    context.RemoveRange(shoppingCarts);
+                    var shoppingCarts = _context.ShoppingCarts.Where(p => p.UserId == requestDto.UserId).ToList();
+                    _context.RemoveRange(shoppingCarts);
                 }
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
                 //MailService içerisindeki method çağrıldı
 

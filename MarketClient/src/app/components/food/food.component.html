@@ -100,20 +100,27 @@
 
             <!-- Products -->
             <div class="row">
-                <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let f of products">
+                <div class="col-xl-4 col-md-6 col-12 mb-2" *ngFor="let p of products">
                     <div class="card text-center">
                         <div class="card-header bg-white">
-                            <img [src]="f.img" class="card-img-top" alt="...">
+                            <img [src]="p.img" class="card-img-top" alt="...">
                         </div>
                         <div class="card-body">
-                            <h4 *ngFor="let category of f.categories">{{category}}</h4>
-                            <h5 class="card-title">{{f.name}}</h5>
-                            <h6 class="card-title">{{f.brand}}</h6>
-                            <p class="card-text">{{f.description}}</p>
-                            <button iconControl
+                            <h4 *ngFor="let category of p.categories">{{category}}</h4>
+                            <h5 class="card-title">{{p.name}}</h5>
+                            <h6 class="card-title">{{p.brand}}</h6>
+                            <p class="card-text">{{p.description}}</p>
+
+                            <!-- productQuantityIsNotEnough Button -->
+                            <button *ngIf="p.stock <= 0" class="btn bg-warning-subtle text-danger text-center w-100" disabled type="button">
+                                <i class="fa-solid fa-hourglass me-3"></i>
+                                <span>{{'productQuantityIsNotEnough' | translate}}</span>
+                            </button>
+
+                            <button *ngIf="p.stock > 0" iconControl
                                 class="btn bg-warning-subtle d-flex justify-content-between w-100 align-items-center"
-                                (click)="addShoppingCart(f)">
-                                <span>{{f.price.value | currency:'':'':'1.2-2'}} {{f.price.currency}}</span>
+                                (click)="addShoppingCart(p)">
+                                <span>{{p.price.value | currency:'':'':'1.2-2'}} {{p.price.currency}}</span>
                                 <i class="fa-solid fa-basket-shopping text-danger"></i>
                             </button>
                         </div>

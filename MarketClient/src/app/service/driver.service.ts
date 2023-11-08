@@ -8,12 +8,19 @@ export class DriverService {
   isPopupShow: boolean = false;
   processBar: number = 0;
   interval: any; 
+  notShowThisPopup: boolean = false;
 
   constructor() {
+    if(localStorage.getItem("notShowDiscoverPopupAgain")){
+      this.notShowThisPopup = true;
+    }
+  }
+
+  showDriverPopup(){
     setTimeout(() => {
       this.changePopupShow();
       this.interval = setInterval(() => {
-        console.log(this.processBar);
+        // console.log(this.processBar);
         this.processBar += 2;
       }, 100)
     }, 1000);
@@ -24,7 +31,6 @@ export class DriverService {
         this.changePopupShow();
       }
     }, 7000);
-
   }
 
   changePopupShow() {
@@ -71,5 +77,10 @@ export class DriverService {
 
     this.changePopupShow();
 
+  }
+
+  notShowAgain(){
+    localStorage.setItem("notShowDiscoverPopupAgain","true");
+    this.notShowThisPopup = true;
   }
 }

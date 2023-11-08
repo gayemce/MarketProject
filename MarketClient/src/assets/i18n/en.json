@@ -1,4 +1,5 @@
 {
+  "market": "Market",
   "home": "Home",
   "myProfile": "MyProfile",
   "logout": "Logout",
@@ -8,6 +9,8 @@
   "food": "Food",
   "fruits&veg": "Fruits & Veg",
   "beverages": "Beverages",
+  "changeLanguage": "Change Language",
+  "basket": "Basket",
   "search": "Enter value to search...",
   "categories": "Categories",
   "pasta": "Pasta",
@@ -23,6 +26,8 @@
   "allCategories": "All Categories",
   "wanttoDiscoverHowtoUseThisWebsite": "Want to discover how to use this website?",
   "discover": "Discover",
+  "notShowAgain": "Not Show Again",
+  "productQuantityIsNotEnough": "Product out of stock!",
   "apiNotAvailable": "Api is bust right now",
   "ApiNotFound": "Api not found",
   "errorStatusNotFound": "We encountered an unknown error. Please contact with admin",

@@ -44,6 +44,7 @@ export class FoodComponent {
   }
 
   addShoppingCart(product: ProductModel) {
+    //Kullanıcı girişi yapıldıysa
     if (localStorage.getItem("response")) {
 
       const data: AddShoppingCartModel = new AddShoppingCartModel();
@@ -54,9 +55,10 @@ export class FoodComponent {
 
       this.http.post("https://localhost:7150/api/ShoppingCarts/Add", data).subscribe({
         next: (res: any) => {
-          this.shopping.checkLocalStorageForShoppingCarts();
+          this.shopping.getAllShoppingCarts();
           this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
             this.swal.callToast(res);
+            // product.stock -= 1;
           });
         },
         error: (err: HttpErrorResponse) => {
@@ -64,12 +66,37 @@ export class FoodComponent {
         }
       });
     }
+
+    //kullanıcı girişi yapılmadıysa
     else {
-      this.shopping.shoppingCarts.push(product);
-      localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
-      this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
-        this.swal.callToast(res);
-      });
+      if (product.stock < 1) { //stock kontrolü
+        this.translate.get("productQuantityIsNotEnough").subscribe(res => {
+          this.swal.callToast(res, "error");
+        })
+      }
+      else {
+        const checkProductIsAlreadyExists = this.shopping.shoppingCarts.filter(p => p.id == product.id)[0];
+
+        //ürün sepette zaten varsa bir artırır
+        if (checkProductIsAlreadyExists !== undefined) {
+          this.shopping.shoppingCarts.filter(p => p.id == product.id)[0].quantity += 1;
+        }
+
+        //yoksa bir adet ekler
+        else {
+          const newProduct = { ...product };
+          newProduct.stock = 1;
+          this.shopping.shoppingCarts.push(newProduct);
+        }
+
+        this.shopping.calcTotal();
+        localStorage.setItem("shoppingCarts", JSON.stringify(this.shopping.shoppingCarts));
+        this.translate.get("addProductInShoppingCartIsSuccessful").subscribe(res => {
+          this.swal.callToast(res);
+        });
+        // product.stock -=1;
+      }
+
     }
   }
 

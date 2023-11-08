@@ -1,14 +1,24 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<div class="popup bg-warning-subtle" *ngIf="driver.isPopupShow">
+<div class="popup bg-warning-subtle" *ngIf="driver.isPopupShow && !driver.notShowThisPopup">
     <p>{{'wanttoDiscoverHowtoUseThisWebsite' | translate}}</p>
     <button (click)="driver.showDriver()" class="btn btn-warning">
         <i class="fa-solid fa-info"></i>
         {{'discover' | translate}}
     </button>
     <!-- progressBar -->
-    <div class="progress mt-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress mt-1" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0"
+        aria-valuemax="100">
         <div class="progress-bar" [ngStyle]="{width: driver.processBar + '%'}"></div>
+    </div>
+
+    <div>
+        <div class="form-check">
+            <input (click)="driver.notShowAgain()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                {{'notShowAgain' | translate}}
+            </label>
+        </div>
     </div>
 </div>
 <app-footer></app-footer>
